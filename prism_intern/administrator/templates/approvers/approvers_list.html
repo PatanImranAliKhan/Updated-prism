@@ -1,0 +1,78 @@
+{% extends "adm_base.html" %}
+{% load static %}
+{% block title %}
+Approvers
+{% endblock %}
+{% block extra_style %}
+<style>
+	table
+	{
+		margin-top: 20px;
+	}
+	.anchor
+	{
+		color: blue;
+		border-bottom: 1px solid blue;
+	}
+	.searchbut
+	{
+		width: 50px;
+		background-color: rgb(191, 204, 204);
+		border: none;
+		cursor: pointer;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div>
+		{% if approvers %}
+			<div>
+				<div class="col-md-6 offset-md-3 mt-5">
+					<form class="input-group mb-3" action="" method="POST">
+						{% csrf_token %}
+						<input type="text" class="form-control" name="search" placeholder="Search ......" aria-label="Recipient's username">
+						<div class="input-group-append">
+							<button class="searchbut" type="submit"><i class="fa fa-search"></i></button>
+						</div>
+					</form>
+				</div>		
+			</div>
+			{% if error %}
+			<div class="alert alert-danger">
+				{{error}}
+			</div>
+			{% endif %}
+			<div class="table-responsive">
+				<table class="table table-striped bg-white">
+					<thead>
+						<tr>
+							<th scope="col">S.No</th>
+							<th scope="col">Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Category</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for approver in approvers %}
+							<tr>
+								<th scope="row">{{ forloop.counter }}</th>
+								<td>{{approver.username}}</td>
+								<td>{{approver.email}}</td>
+								<td>{{approver.category}}</td>
+								<td><a href="{% url 'approverdetails' approver.email %}" class="anchor">View</a></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% else %}
+		<div class="jumbotron" style="width: 100%;">
+			<!-- <h1 class="display-4">304 Error</h1> -->
+			<p class="lead">No approvers has been added</p>
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

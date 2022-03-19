@@ -1,0 +1,148 @@
+{% extends "user_base.html" %}
+{% load static %}
+{% block title %}
+View Report
+{% endblock %}
+{% block extra_style %}
+
+<style>
+	body {
+		background: #4378a0;
+		font-family: "Roboto", sans-serif;
+	}
+	.box {
+		padding: 30px;
+		margin-bottom: 30px;
+		border-radius: 10px;
+		background: #fff;
+		box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+		height: auto;
+	}
+	@media (min-width: 768px) {
+		.box {
+			padding: 50px;
+		}
+	}
+	.align-center {
+		align-items: center;
+	}
+	.image-block {
+		position: relative;
+	}
+	.image-block .img-image {
+		position: relative;
+		margin-top: 30px;
+	}
+	@media (min-width: 768px) {
+		.image-block .img-image {
+			width: 90%;
+			margin: 0 auto;
+		}
+	}
+	@media (max-width: 768px) {
+		.box {
+			height: auto;
+		}
+	}
+	.image-block .img-image img {
+		height: 400px;
+		width: 100%;
+		object-fit: cover;
+		border-radius: 10px;
+		box-shadow: 0 5px 30px -3px rgba(0, 0, 0, 0.1);
+	}
+	@media (max-width: 992px) {
+		.image-block .img-image {
+			width: 100%;
+			margin: 0 auto;
+		}
+	}
+	.rightcon
+	{
+		margin-top: 20px;
+	}
+	.nav-pills .nav-link
+	{
+		display: block;
+		color: #000;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div>
+	<div class="container">
+		<br>
+		<div class="box">
+			<div style="text-align: center;">
+				<h6><b>{{photo.email}}</b></h6>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="image-block">
+						<div class="img-image">
+							<img src="{{photo.file.url}}" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-7">
+					<div class="rightcon">
+						<div class="d-flex justify-content-center">
+							<ul id="nav-tabs" class="nav nav-pills">
+								<li class="active"><a data-toggle="tab" class="nav-link active"href="#hdr">Hdr</a></li>
+								<li><a data-toggle="tab" class="nav-link" href="#beauty">Beauty</a></li>
+								<li><a data-toggle="tab" class="nav-link" href="#bokeh">Bokeh</a></li>
+								<li><a data-toggle="tab" class="nav-link" href="#light">Light</a></li>
+							</ul>
+						</div>
+						<br>
+						<div class="tab-content">
+							<div id="hdr" class="tab-pane fade in active show">
+								<div>
+									{% for h in hdr %}
+										<small><b>{{h.email}}</b></small>
+										<textarea class="form-control" disabled rows="2">{{h.review}}</textarea>
+									{% empty %}
+									<p>hdr reviews were empty</p>
+									{% endfor %}
+								</div>
+							</div>
+							<div id="beauty" class="tab-pane fade">
+								<div>
+									{% for bea in beauty %}
+										<small><b>{{bea.email}}</b></small>
+										<textarea class="form-control" disabled rows="2">{{bea.review}}</textarea>
+									{% empty %}
+									<p>beauty reviews were empty</p>
+									{% endfor %}
+								</div>
+							</div>
+							<div id="bokeh" class="tab-pane fade">
+								<div>
+									{% for bo in bokeh %}
+										<small><b>{{bo.email}}</b></small>
+										<textarea class="form-control" disabled rows="2">{{bo.review}}</textarea>
+									{% empty %}
+									<p>bokeh reviews were empty</p>
+									{% endfor %}
+								</div>
+							</div>
+							<div id="light" class="tab-pane fade">
+								<div>
+									{% for li in light %}
+										<small><b>{{li.email}}</b></small>
+										<textarea class="form-control" disabled rows="2">{{li.review}}</textarea>
+									{% empty %}
+									<p>light reviews were empty</p>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

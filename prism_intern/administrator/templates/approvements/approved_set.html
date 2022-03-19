@@ -1,0 +1,380 @@
+{% extends "adm_base.html" %}
+{% load static %}
+{% block title %}
+Approved Reports
+{% endblock %}
+{% block extra_style %}
+
+<style>
+	body {
+		background: #4378a0;
+		font-family: "Roboto", sans-serif;
+	}
+
+	.searchbut {
+		width: 50px;
+		background-color: rgb(191, 204, 204);
+		border: none;
+		cursor: pointer;
+	}
+
+	.box {
+		padding: 30px;
+		margin-bottom: 30px;
+		border-radius: 10px;
+		background: #fff;
+		z-index: -10;
+		box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+	}
+
+	@media (min-width: 768px) {
+		.box {
+			padding: 50px;
+		}
+	}
+
+	.align-center {
+		align-items: center;
+	}
+
+	.image-block {
+		position: relative;
+	}
+
+	.image-block .img-image {
+		position: relative;
+		margin-top: 30px;
+	}
+
+	@media (min-width: 768px) {
+		.image-block .img-image {
+			width: 90%;
+			margin: 0 auto;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.box {
+			height: auto;
+		}
+	}
+
+	.image-block .img-image img {
+		height: 400px;
+		width: 100%;
+		object-fit: cover;
+		border-radius: 10px;
+		box-shadow: 0 5px 30px -3px rgba(0, 0, 0, 0.1);
+	}
+
+	.card1 {
+		margin-left: 140px;
+		z-index: 0;
+	}
+
+	#progressbar {
+		position: absolute;
+		left: 35px;
+		overflow: hidden;
+		color: #E53935;
+	}
+
+	#progressbar li {
+		list-style-type: none;
+		font-size: 8px;
+		font-weight: 400;
+		margin-bottom: 80px;
+	}
+
+	#progressbar .step0:before {
+		content: "";
+		color: #fff
+	}
+
+	#progressbar li:before {
+		width: 30px;
+		height: 30px;
+		line-height: 30px;
+		display: block;
+		font-size: 20px;
+		border: 2px solid #3547e5;
+		background: #3547e5;
+		border-radius: 50%;
+		margin: auto;
+	}
+
+	#progressbar li:after {
+		content: '';
+		width: 3px;
+		height: 80px;
+		background: #03a12b;
+		position: absolute;
+		left: 70px;
+		top: 30px;
+		z-index: 0;
+	}
+
+	#progressbar li:nth-child(3):after {
+		top: 250px
+	}
+
+	#progressbar li:nth-child(2):after {
+		top: 140px
+	}
+
+	#progressbar li:nth-child(1):after {
+		top: 30px
+	}
+
+	/* #progressbar li:first-child:after {
+		position: absolute;
+		top: -81px
+	} */
+
+	#progressbar li:first-child:after {
+		position: absolute;
+	}
+
+	#progressbar li.active:after {
+		background: #03ac28;
+		height: 80px;
+		z-index: 10;
+	}
+
+	#progressbar li.active:before {
+		background: #03a12b;
+		font-family: FontAwesome;
+		content: "\f00c";
+		border: 2px solid #03a12b;
+	}
+
+	#progressbar li.disactive:before {
+		background: red;
+		font-family: FontAwesome;
+		content: "\f00d";
+		border: 2px solid red;
+	}
+
+	.appr {
+		word-wrap: break-word;
+	}
+
+	.seereport {
+		color: blue;
+		border-bottom: 1px solid blue;
+		cursor: pointer;
+		margin-left: 75px;
+	}
+
+	@media (max-width: 992px) {
+		.card1 {
+			margin-left: 75px;
+		}
+
+		#progressbar {
+			left: 0px;
+		}
+
+		.image-block .img-image {
+			width: 100%;
+			margin: 0 auto;
+		}
+	}
+
+	@media screen and (max-width: 912px) {
+		.card1 {
+			border: none;
+			margin-left: 50px;
+		}
+
+		#progressbar {
+			left: -25px;
+		}
+	}
+
+	@media screen and (max-width: 465px) {
+		#progressbar li {
+			margin-bottom: 120px;
+		}
+
+		#progressbar li:after {
+			height: 120px;
+		}
+
+		#progressbar li:nth-child(2):after {
+			top: 180px
+		}
+
+		#progressbar li:nth-child(2):after {
+			top: 300px
+		}
+
+		/* 
+		#progressbar li:nth-child(1):after {
+			top: 30px;
+		} */
+		#progressbar li.active:after {
+			background: #03ac28;
+			height: 120px;
+			z-index: 10;
+		}
+	}
+
+	@media screen and (max-width: 330px) {
+		.seereport {
+			margin-left: 25px;
+		}
+	}
+
+	.textarea {
+		border: 1px solid #000;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div>
+	{% if photos %}
+	<div class="container">
+		{% if success %}
+		<div class="alert alert-success" style="border-radius: 15px;">
+			{{success}}
+		</div>
+		{% endif %}
+		{% if error %}
+		<div class="alert alert-danger" style="border-radius: 15px;">
+			{{error}}
+		</div>
+		{% endif %}
+		<div class="col-md-6 offset-md-3 mt-5">
+			<form class="input-group mb-3" action="" method="POST">
+				{% csrf_token %}
+				<input type="text" class="form-control" name="search" placeholder="Search By Email..."
+					aria-label="Recipient's username">
+				<div class="input-group-append">
+					<button class="searchbut" type="submit"><i class="fa fa-search"></i></button>
+				</div>
+			</form>
+		</div>
+		<br>
+		{% for photo in photos%}
+		<div class="box">
+			<div style="text-align: center;">
+				<h6><b>{{photo.email}}</b></h6>
+			</div>
+			<div class="row align-center">
+				<div class="col-md-5">
+					<div class="image-block">
+						<div class="img-image">
+							<img src="{{photo.file.url}}" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="rightcon">
+						<h5 style="text-align: center;"><b>Approvers</b></h5>
+						<div class="d-flex flex-md-row px-3 mt-4 flex-column-reverse">
+							<div>
+								<div class="card1">
+									<ul id="progressbar" class="text-center">
+										{% if photo.hdrstatus %}
+										<li class="active step0"></li>
+										{% else %}
+										<li class="step0"></li>
+										{% endif %}
+										{% if photo.beautystatus %}
+										<li class="active step0"></li>
+										{% else %}
+										<li class="step0"></li>
+										{% endif %}
+										{% if photo.bokehstatus %}
+										<li class="active step0"></li>
+										{% else %}
+										<li class="step0"></li>
+										{% endif %}
+										{% if photo.lightstatus %}
+										<li class="active step0"></li>
+										{% else %}
+										<li class="step0"></li>
+										{% endif %}
+									</ul>
+									<div>
+										<div class="appr">
+											<b>HDR</b><br>
+											<span>
+												<b>Email: </b> {{photo.hdr_appr_email}}
+											</span>
+											<br>
+											<div style="display: inline-flex;margin-top: 10px;">
+												{% if photo.hdrstatus %}
+												<p style="color: green;">verified</p>
+												{% else %}
+												<p style="color: blue;">Not Verified yet</p>
+												{% endif %}
+											</div>
+										</div>
+										<div class="appr">
+											<b>BEAUTY</b><br>
+											<span>
+												<b>Email: </b> {{photo.beauty_appr_email}}
+											</span>
+											<br>
+											<div style="display: inline-flex;margin-top: 10px;">
+												{% if photo.beautystatus %}
+												<p style="color: green;">verified</p>
+												{% else %}
+												<p style="color: blue;">Not Verified yet</p>
+												{% endif %}
+											</div>
+										</div>
+										<div class="appr">
+											<b>BOKEH</b><br>
+											<span>
+												<b>Email: </b> {{photo.bokeh_appr_email}}
+											</span>
+											<br>
+											<div style="display: inline-flex;margin-top: 10px;">
+												{% if photo.bokehstatus %}
+												<p style="color: green;">verified</p>
+												{% else %}
+												<p style="color: blue;">Not Verified yet</p>
+												{% endif %}
+											</div>
+										</div>
+										<div class="appr">
+											<b>LIGHT</b><br>
+											<span>
+												<b>Email: </b> {{photo.light_appr_email}}
+											</span>
+											<br>
+											<div style="display: inline-flex;margin-top: 10px;">
+												{% if photo.lightstatus %}
+												<p style="color: green;">verified</p>
+												{% else %}
+												<p style="color: blue;">Not Verified yet</p>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<textarea class="form-control" name="review" disabled rows="3">{% if photo.comment %}{{photo.comment}} {% endif %}</textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% else %}
+	<div class="container">
+		<div class="jumbotron" style="width: 100%;">
+			<!-- <h1 class="display-4">304 Error</h1> -->
+			<p class="lead">No approvements of the Report has been done</p>
+		</div>
+	</div>
+	{% endif %}
+</div>
+
+{% endblock %}

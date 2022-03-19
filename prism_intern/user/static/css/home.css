@@ -1,0 +1,169 @@
+.top
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 40px;
+}
+
+.leftcontent
+{
+    margin: 150px 20px;
+    font-size: 30px;
+}
+
+.rightimage
+{
+    float: right;
+    height: 500px;
+    width: 75%;
+    z-index: -1;
+    background-color: orange;
+    border-radius: 50%;
+    box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.2), 0 20px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.image
+{
+    width: 85%;
+    height: 85%;
+}
+
+img
+{
+    margin: 5% 7%;
+}
+
+.textLeftTopDown
+{
+    margin-left: 35%;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.textLeftTop
+{
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.specialTextOnline
+{
+    /* background-color: linear-gradient(#F60303, #F009F4); */
+    background: -webkit-linear-gradient(rgb(1, 79, 248), #f40928);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 72px;
+}
+
+@media (max-width: 1000px)
+{
+    .rightimage
+    {
+        float: right;
+        height: 600px;
+        width: 100%;
+    }
+    .textLeftTopDown
+    {
+        margin-left: 15%;
+        font-size: 22px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 900px)
+{
+    .textLeftTop
+    {
+        font-size: 25px;
+        letter-spacing: 1.5px;
+        font-weight: bold;
+    }
+    .textLeftTopDown
+    {
+        font-size: 19px;
+    }
+    .rightimage
+    {
+        margin-left: -10%;
+        width: 110%;
+    }
+}
+
+@media (max-width: 765px)
+{
+    .top
+    {
+        display: block;
+    }
+    .rightimage
+    {
+        position: absolute;
+        height: 800px;
+        margin-left: 0%;
+        width: 100%;
+        left: 0%;
+        top: 0%;
+        border-radius: 0px 0px 10% 10%;
+    }
+    img
+    {
+        margin: 2% 5%;
+        margin-left: 9%;
+    }
+    .image
+    {
+        margin: 120px 7%;
+        height: 400px;
+    }
+    .leftcontent
+    {
+        text-align: center;
+        margin-top: 450px;
+        font-size: 30px;
+    }
+    .textLeftTopDown
+    {
+        font-size: 17px;
+        margin-top: -10px;
+    }
+}
+
+@media (max-width: 465px)
+{
+    .image
+    {
+        margin: 90px 7%;
+        height: 300px;
+    }
+    .rightimage
+    {
+        position: absolute;
+        height: 650px;
+        margin-left: 0%;
+        width: 100%;
+        left: 0%;
+        top: 0%;
+        border-radius: 0px 0px 10% 10%;
+    }
+    .leftcontent
+    {
+        text-align: center;
+        margin-top: 350px;
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 376px)
+{
+    .leftcontent
+    {
+        text-align: center;
+        margin-top: 350px;
+        font-size: 25px;
+    }
+    .specialTextOnline
+    {
+        font-size: 45px;
+    }
+}

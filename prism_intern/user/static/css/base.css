@@ -1,0 +1,44 @@
+body
+{
+    background-color: #4378a0;
+}
+nav
+{
+    font-family: "Roboto", sans-serif;
+}
+nav 
+{
+    color: #fff;
+}
+
+a
+{
+    text-decoration: none;
+    color: #fff;
+}
+a:hover
+{
+    color: black;
+}
+
+li
+{
+    margin: 0px 15px;
+}
+
+.logo
+{
+    font-family: "Script MT";
+    font-size: 30px;
+    text-align: center;
+    color: #888888;
+}
+
+.logo .logo-font
+{
+    color: #fff;
+}
+.fa
+{
+    margin-right: 5px;
+}

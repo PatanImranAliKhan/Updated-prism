@@ -1,0 +1,126 @@
+{% extends "adm_base.html" %}
+{% load static %}
+{% block title %}
+Light Images
+{% endblock %}
+{% block extra_style %}
+<style>
+	body {
+		background: #4378a0;
+		font-family: "Roboto", sans-serif;
+	}
+
+	.searchbut {
+		width: 50px;
+		background-color: rgb(191, 204, 204);
+		border: none;
+		cursor: pointer;
+	}
+
+	.box {
+		padding: 30px;
+		margin-bottom: 30px;
+		border-radius: 10px;
+		background: #fff;
+		z-index: -10;
+		box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+	}
+
+	.card
+	{
+		padding: 10px;
+		width: 300px;
+		/* margin-bottom: 20px; */
+	}
+
+	.card img
+	{
+		margin: auto;
+		width: 175px;
+		height: 200px;
+	}
+
+	.card-body
+	{
+		margin-bottom: 0px;
+		margin: auto;
+	}
+
+	.card-text
+	{
+		margin-bottom: 25px;
+	}
+
+	@media (min-width: 768px) {
+		.box {
+			padding: 50px;
+		}
+	}
+
+	.align-center {
+		align-items: center;
+	}
+
+	.anchorlink
+	{
+		text-decoration: none;
+		color: blue;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+	<h5 style="text-align: left;color: #000;font-size: 30px;"><b>Online Benchmarking Report</b></h5>
+	<div class="box">
+		<div style="text-align: center;">
+			<h6><b>{{photo.email}}</b></h6>
+		</div>
+		<div class="row align-center">
+			
+			<div class="col">
+				<div class="d-flex flex-md-row px-3 mt-4 flex-column-reverse">
+					<div>
+						<div>
+							<div >
+
+								<div class="row">
+									{% for photo in photos %}
+									<div class="col-md-4">
+										<div class="card shadow-sm">
+											<img src="{{photo.file.url}}" width="100%" height="50%" alt="">
+
+											<div class="card-body">
+												<p class="card-text">Samsung Mobile</p>
+											</div>
+										</div>
+									</div>
+									
+									{% endfor %}
+									<!-- <div class="col-md-4">
+										<div class="card shadow-sm">
+											<img src="{{photo.file.url}}" alt="">
+
+											<div class="card-body">
+												<p class="card-text">IPhone Mobile</p>
+											</div>
+										</div>
+									</div> -->
+									<!-- <div class="col-md-4">
+										<div class="card shadow-sm">
+											<img src="{{photo.file.url}}" alt="">
+
+											<div class="card-body">
+												<p class="card-text">Onplus Mobile</p>
+											</div>
+										</div>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

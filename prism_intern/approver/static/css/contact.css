@@ -1,0 +1,82 @@
+.contactform {
+    font-family: "Roboto", sans-serif;
+    width: 550px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 15px;
+    margin-top: 5%;
+    border: 2px solid #000;
+}
+
+.heading {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.main {
+    width: 90%;
+    margin: auto;
+    padding-bottom: 50px;
+    padding-top: 15px;
+}
+
+.form-control {
+    height: 45px;
+}
+
+@media (max-width: 560px) {
+    .contactform {
+        width: 100%;
+    }
+
+    .row {
+        display: inline-block;
+    }
+
+    #inp1 {
+        position: relative;
+        width: 95%;
+        margin: auto;
+        height: 45px;
+        margin-bottom: 10px;
+    }
+
+    #inp2 {
+        position: relative;
+        width: 95%;
+        margin: auto;
+        height: 45px;
+        margin-bottom: 10px;
+    }
+}
+
+.btn {
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+.anchor {
+    text-decoration: none;
+    color: blue;
+}
+
+.image {
+    width: 100%;
+    border-radius: 13px 13px 0px 0px;
+}
+
+.fa {
+    cursor: pointer;
+}
+
+.checked {
+    color: orange;
+}
+
+.rateing {
+    margin-left: 15px;
+}

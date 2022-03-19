@@ -1,0 +1,80 @@
+{% extends "appr_base.html" %}
+{% load static %}
+{% block title %}
+	Verified Reports
+{% endblock %}
+{% block extra_style %}
+<style>
+	@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
+	.card
+	{
+		margin-bottom: 10px;
+		border-radius: 10px;
+	}
+	@media (max-width: 575px)
+	{
+		.card
+		{
+			margin: 0 auto;
+			margin-bottom: 10px;
+		}
+	}
+	.review
+	{
+		margin-top: -10px;
+		height: 40px;
+		color: blue;
+		margin-left: 50px;
+		background-color: rgb(110, 231, 240);
+	}
+	.Benchmark
+	{
+		text-decoration: none;
+		color: blue;
+		font-size: 13px;
+		margin-top: 8px;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div>
+	<div class="container">
+		<br>
+		<br>
+		<div class="row">
+			{% if photos %}
+			{% for photo in photos %}
+			<div class="col-lg-4 col-sm-6">
+				<div class="card" style="width: 18rem;">
+					<br>
+					<img class="card-img-top" src="{{photo.file.url}}" alt="Card image cap">
+					<div class="card-body">
+						<!-- <h5 class="card-title">Photo {{ forloop.counter }}</h5> -->
+						<form accept="" method="post">
+							{% csrf_token %}
+							<b>Comment:</b>
+							<div class="form-group">
+								<textarea class="form-control" name="editedreview" rows="3">{% if photo.comment %}{{photo.comment}} {% endif %}</textarea>
+							</div>
+							<div class="row">
+								<p class="col-md-1"></p>
+								<button type="submit" class="col-md-3 btn btn-primary" name="edit" value="{{photo.id}}">Edit</button>
+								<a class="col-sm-6 Benchmark" href="{% url 'apprviewreport' photo.id %}">BenchmarkReport</a>
+							</div>
+						</form>
+						<br>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			{% else %}
+			<div class="jumbotron" style="width: 100%;">
+				<!-- <h1 class="display-4">304 Error</h1> -->
+				<p class="lead"><b>No Images has been verified yet</b></p>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}

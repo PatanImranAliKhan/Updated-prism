@@ -1,0 +1,171 @@
+{% extends "user_base.html" %}
+{% load static %}
+{% block title %}
+Profile
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/uprofile.css'%}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+{% block content %}
+<section>
+	<div class="container">
+		<br><br>
+		{% if message %}
+		<div class="alert alert-success">
+			{{message}}
+		</div>
+		{% endif %}
+		{% if error %}
+		<div class="alert alert-danger">
+			{{error}}
+		</div>
+		{% endif %}
+		<br>
+		<div class="profile">
+			<div class="left">
+				<div class="d-flex justify-content-center">
+					<img src="{{user.profilepic.url}}">
+				</div>
+				<div class="d-flex justify-content-center">
+					<form action="{% url 'updateprofilepic' %}" enctype="multipart/form-data" id="profileUpload" method="POST">
+						{% csrf_token %}
+						<input type="file" class="fileinput" id="id_file" name="profilepic" accept="image/png, image/jpeg">
+					</form>
+				</div>
+				<div>
+					<div>
+						<small style="color: rgb(73, 67, 67);"><i class="fa fa-user"></i> Name</small>
+						<p>{{user.username}}</p>
+					</div>
+					<div>
+						<small style="color: rgb(73, 67, 67);"><i class="fa fa-envelope"></i> Email</small>
+						<p>{{user.email}}</p>
+					</div>
+					<div>
+						<small style="color: rgb(73, 67, 67);"><i class="fa fa-phone"></i> Phone</small>
+						<p>{{user.mobile}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="right">
+				<div>
+					<ul id="nav-tabs" class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" class="nav-link active" href="#account">Account</a></li>
+						<li><a data-toggle="tab" class="nav-link" href="#password">Password</a></li>
+					</ul>
+				</div>
+				<br><br>
+				<div class="tab-content">
+					<div id="account" class="tab-pane fade in active show">
+						<h3 class="m-b-10">Profile Details</h3>
+						<form action="" method="POST">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>User Name</label>
+										<input type="text" class="form-control" name="name" value="{{user.username}}">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Email</label>
+										<input type="text" class="form-control" name="email" value="{{user.email}}" disabled>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Phone number</label>
+										<input type="tel" class="form-control" name="mobile" value="{{user.mobile}}">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Bio</label>
+										
+										<textarea rows="3" class="form-control" name="bio">{% if user.bio %}{{user.bio}}{% endif %}</textarea>
+									</div>
+								</div>
+							</div>
+							<div>
+								<button class="btn btn-primary" type="submit" name="updatedetails">Update</button>
+								<span class="btn btn-secondary cancel" onclick="goBack()">Cancel</span>
+							</div>
+						</form>
+					</div>
+					<div id="password" class="tab-pane fade">
+						<h3 class="m-b-10">Change Password</h3>
+						<form action="" method="POST">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-md-10">
+									<div class="form-group">
+										<label>Old password</label>
+										<input type="password" class="form-control" name="oldpass" required>
+										{% if errorp %}
+										<small style="color: red;">{{errorp}}</small>
+										{% endif %}
+									</div>
+								</div>
+								<div class="col-md-10">
+									<div class="form-group">
+										<label>New password</label>
+										<input type="password" class="form-control" name="newpass" required>
+									</div>
+								</div>
+								<div class="col-md-10">
+									<div class="form-group">
+										<label>Confirm new password</label>
+										<input type="password" class="form-control" name="confirmpass" required>
+										{% if errorcon %}
+										<small style="color: red;">{{errorcon}}</small>
+										{% endif %}
+									</div>
+								</div>
+							</div>
+							<div>
+								<button class="btn btn-primary" type="submit" name="updatepassword">Update</button>
+								<span class="btn btn-secondary cancel" onclick="goBack()">Cancel</span>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<script>
+	function goBack() {
+		window.history.back();
+	}
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+
+	<script>
+		$(function () {
+
+			/* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+			$("#id_file").change(function () {
+				if (this.files && this.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function (e) {
+						// $("#image").attr("src", e.target.result);
+						console.log("image upload");
+						$("#profileUpload").submit();
+					}
+					reader.readAsDataURL(this.files[0]);
+				}
+			});
+
+		});
+	</script>
+{% endblock %}

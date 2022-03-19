@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+	Register
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+{% block content %}
+<section>
+    <div class="container">
+		<form class="signupform" action="{% url 'register' %}" method="POST">
+			{% csrf_token %}
+			<div class="userlogo">
+				<i class="fa fa-user-circle" style="font-size: 60px;" aria-hidden="true"></i>
+			</div>
+			<h3 class="heading">Register</h3>
+			<div class="main">
+				<div class="form-group">
+					<input type="text" placeholder="username" class="form-control" name="username" required>
+				</div>
+				<div class="form-group">
+					<input type="email" placeholder="Email" class="form-control" name="email" required>
+				</div>
+				<div class="form-group">
+					<input type="tel" placeholder="Mobile Number" class="form-control" name="mobile" required>
+				</div>
+				<div class="form-group">
+					<input type="password" placeholder="password" name="password" class="form-control" required>
+				</div>
+				<button class="btn btn-primary" type="submit">Register</button>
+				<p class="already">
+					Already have an account: <a class="anchor" href="{% url 'login' %}">login</a>
+				</p>
+			</div>
+		</form>
+	</div>
+</section>
+{% endblock %}

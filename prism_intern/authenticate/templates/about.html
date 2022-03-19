@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+	About Us
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+{% block content %}
+<section id="about" >
+    <div class="container">
+        <div class="row flex-center">
+            <div class="col-md-8 cont">
+                <h1 data-aos="fade-left" data-aos-delay="100"><b>Resport Access Control And Workflow</b></h1>
+                <p data-aos="fade-left" data-aos-delay="200" >report access control and workflow I will update the detaiils soon</p>
+                <br>
+                <div class="feat">
+                    <div class="feat-box" data-aos="fade-left" data-aos-delay="400">
+                        <div class="feat-icon">
+                            <i class="fa fa-upload fa-2x" aria-hidden="true"></i>
+                        </div>
+                        <div class="feat-content">
+                            <h5>Upload Image</h5>
+                            <p>uploading the image was done by the endusers. and approved by others</p>
+                        </div>
+                    </div>
+                    <div class="feat-box" data-aos="fade-left" data-aos-delay="400">
+                        <div class="feat-icon">
+                            <i class="fa fa-flag fa-2x" aria-hidden="true"></i>
+                        </div>
+                        <div class="feat-content">
+                            <h5>Report Of the Image</h5>
+                            <p>Report of theimage has been given by the user who uploaded the images</p>
+                        </div>
+                    </div>
+                    <div class="feat-box" data-aos="fade-left" data-aos-delay="500">
+                        <div class="feat-icon">
+                            <i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>
+                        </div>
+                        <div class="feat-content">
+                            <h5>Approvement of the image</h5>
+                            <p>Approvement of the images has been done by the admins.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

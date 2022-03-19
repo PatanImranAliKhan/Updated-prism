@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Register
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/registrationhome.css' %}">
+{% endblock %}
+{% block content %}
+<section id="register" class="section-100">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-sm-6">
+				<div class="card" style="width: 22rem;">
+					<img class="card-img-top" src="{% static 'images/icons/user.png' %}" alt="Card image cap">
+					<div class="card-body">
+						<h5 class="card-title">User</h5>
+						<p class="card-text">Upload the image wait wait for the review of the approvers</p>
+						<a href="{% url 'user_register' %}" class="btn btn-primary">Register</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-sm-6">
+				<div class="card" style="width: 22rem;">
+					<img class="card-img-top" src="{% static 'images/icons/approver.png'%}" alt="Card image cap">
+					<div class="card-body">
+						<h5 class="card-title">Approver</h5>
+						<p class="card-text">verify the images uploaded by the users and give them review.</p>
+						<a href="{% url 'appr_register' %}" class="btn btn-primary">Register</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

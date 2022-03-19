@@ -1,0 +1,188 @@
+{% extends "adm_base.html" %}
+{% load static %}
+{% block title %}
+	Feedbacks
+{% endblock %}
+{% block extra_style %}
+<style>
+    .cards_list
+    {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .card
+    {
+        border: 2px solid #000000;
+        border-radius: 10px;
+        width: 325px;
+        height: 200px;
+        margin-right: 20px;
+        margin-top: 20px;
+    }
+    .user-info {
+        display: flex;
+        align-items: center;
+        overflow-wrap: break-word;
+        word-wrap: break-word
+    }
+    .user-info__img img {
+        border-radius: 45px;
+        border: 3px solid #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow-wrap: break-word;
+        word-wrap: break-word
+    }
+    .fa
+    {
+        font-size: 25px;
+        width: 25px;
+    }
+    @media (max-width: 1100px)
+    {
+        .cards_list
+        {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    @media (max-width: 991px)
+    {
+        .cards_list
+        {
+            margin-right: 10px;
+        }
+    }
+    @media (max-width: 767px)
+    {
+        .fa
+        {
+            font-size: 15px;
+            width: 20px;
+        }
+        .card
+        {
+            width: 225px;
+            height: 150px;
+            font-size: 10px;
+        }
+        .user-info__basic
+        {
+            font-size: 15px;
+        }
+    }
+    @media (max-width: 495px)
+    {
+        .cards_list
+        {
+            grid-template-columns: 1fr;
+        }
+        .card
+        {
+            width: 90%;
+            margin:auto;
+            height: auto;
+            font-size: 15px;
+        }
+        .h6
+        {
+            font-size: 10px;
+        }
+    }
+    @media (max-width: 495px)
+    {
+        .card
+        {
+            width: 100%;
+        }
+    }
+    .message
+    {
+        /* overflow: scroll; */
+        display: inline-flex;
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    {% if feedbacks %}
+        <div class="cards_list">
+            {% for feedback in feedbacks%}
+                <div class="card bg-white p-3 mb-4 shadow" method="POST">
+                    <div class="d-flex justify-content-between mb-4">
+                        <div class="user-info">
+                            <div class="user-info__basic">
+                                <h6 class="mb-0"><b>{{feedback.email}}</b></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="mb-0">Rating : {{feedback.rate}}</h6>
+                    <div class="message">
+                        <h6>Feedback: </h6>
+                        &nbsp;&nbsp;&nbsp;
+                        <p>{{feedback.feedback}}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="jumbotron" style="width: 100%;">
+            <h1 class="display-4">304 Error</h1>
+            <p class="lead">No Feedbacks has been received yet</p>
+        </div>
+    {% endif %}
+        <!-- <div class="card bg-white p-3 mb-4 shadow" method="POST">
+            <div class="d-flex justify-content-between mb-4">
+                <div class="user-info">
+                    <div class="user-info__img">
+                        <i class="fa fa-user-circle-o" aria-hidden="true" style="font-size: 30px; width: 40px;"></i>
+                    </div>
+                    <div class="user-info__basic">
+                        <h6 class="mb-0"><b>imranir</b></h6>
+                    </div>
+                </div>
+            </div>
+            <h6 class="mb-0">Consultation fee : 200/-</h6>
+            <a href="#!"><small>Contact</small></a>
+            <div class="d-flex justify-content-between mt-4">
+                <div>
+                    <h6 class="mb-0">slot
+                        <small class="ml-1">date</small>
+                    </h6>
+                </div>
+            </div>
+        </div>
+        <div class="card bg-white p-3 mb-4 shadow" method="POST">
+            <div class="d-flex justify-content-between mb-4">
+                <div class="user-info">
+                    <div class="user-info__img">
+                        <i class="fa fa-user-circle-o" aria-hidden="true" style="font-size: 30px; width: 40px;"></i>
+                    </div>
+                    <div class="user-info__basic">
+                        <h6 class="mb-0"><b>imranirfanalikhan786@gmail.com</b></h6>
+                    </div>
+                </div>
+            </div>
+            <h6 class="mb-0">Consultation fee : 200/-</h6>
+            <a href="#!"><small>Contact</small></a>
+            <div class="d-flex justify-content-between mt-4">
+                <div>
+                    <h6 class="mb-0">slot
+                        <small class="ml-1">date</small>
+                    </h6>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            hello
+            <div>
+                <i class="fa fa-heart" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="card">
+            hello
+        </div>
+        <div class="card">
+            hello
+        </div>-->
+</div>
+{% endblock %}

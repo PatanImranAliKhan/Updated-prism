@@ -1,0 +1,46 @@
+{% extends "adm_base.html" %}
+{% load static %}
+{% block title %}
+	Add Approver
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+{% block content %}
+<section>
+    <div class="container">
+		{% if message %}
+		<div class="alert alert-success">
+			{{message}}
+		</div>
+		{% endif %}
+		{% if error %}
+		<div class="alert alert-danger">
+			{{error}}
+		</div>
+		{% endif %}
+		<form class="signupform" action="" method="POST">
+			{% csrf_token %}
+			<div class="userlogo">
+				<i class="fa fa-user-circle" style="font-size: 60px;" aria-hidden="true"></i>
+			</div>
+			<h3 class="heading">Add Approver</h3>
+			<div class="main">
+				<div class="form-group">
+                    {{form.username}}
+				</div>
+				<div class="form-group">
+                    {{form.email}}
+				</div>
+				<div class="form-group">
+                    {{form.mobile}}
+				</div>
+				<div class="form-group">
+                    {{form.category}}
+				</div>
+				<button class="btn btn-primary" type="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+</section>
+{% endblock %}

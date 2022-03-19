@@ -1,0 +1,21 @@
+{% extends "appr_base.html" %}
+{% load static %}
+{% load static %}
+{% block title %}
+	Samsung Prism
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/home.css'%}">
+{% endblock %}
+{% block content %}
+<div>
+	<div class="top">
+        <div class="leftcontent">
+            <span class="textLeftTop">Welcome <span class="specialTextOnline">Approver</span></span><br>
+        </div>
+        <div class="rightimage">
+            <img class="image" src="{% static 'images/devices.png'%}" alt="doctor">
+        </div>
+    </div>
+</div>
+{% endblock %}

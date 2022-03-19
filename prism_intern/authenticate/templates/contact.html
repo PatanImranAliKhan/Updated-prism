@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Contact Us
+{% endblock %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock %}
+{% block content %}
+<section>
+	<form class="contactform" action="{% url 'contact' %}" method="POST">
+		{% if message %}
+		<div class="alert alert-success">
+			{{message}}
+		</div>
+		{% endif %}
+		{% if error %}
+		<div class="alert alert-danger">
+			{{error}}
+		</div>
+		{% endif %}
+		<img class="image" src="{% static 'images/contact.png'%}" alt="contact">
+		{% csrf_token %}
+		<h3 class="heading">Feedback</h3>
+		<div class="main">
+			<div class="form-group">
+				<input type="email" name="email" placeholder="Email" class="form-control" required>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col">
+						<input type="text" id="inp1" name="name" placeholder="Username" class="form-control" required>
+					</div>
+					<div class="col">
+						<input type="tel" name="mobile" id="inp2" placeholder="Mobile" class="form-control" required>
+					</div>
+				</div>
+			</div>
+			<div class="form-group rateing">
+				<label>Rate us</label><br>
+				<input type="text" name="rate" id="rate" hidden>
+				<span id="1" class="fa fa-star fa-2x" aria-hidden="true"></span>
+				<span id="2" class="fa fa-star fa-2x" aria-hidden="true"></span>
+				<span id="3" class="fa fa-star fa-2x" aria-hidden="true"></span>
+				<span id="4" class="fa fa-star fa-2x" aria-hidden="true"></span>
+				<span id="5" class="fa fa-star fa-2x" aria-hidden="true"></span>
+			</div>
+			<div class="form-group">
+				<textarea class="form-control" id="message" name="feedback" rows="5"
+					placeholder="Feedback....."></textarea>
+			</div>
+			<button class="btn btn-primary" type="submit">Send</button>
+		</div>
+	</form>
+</section>
+
+<script>
+	one = document.getElementById("1")
+	two = document.getElementById("2")
+	three = document.getElementById("3")
+	four = document.getElementById("4")
+	five = document.getElementById("5")
+
+	const handleselect = (selection) => {
+		switch (selection) {
+			case '1':
+				{
+					one.classList.add("checked")
+					two.classList.remove("checked")
+					three.classList.remove("checked")
+					four.classList.remove("checked")
+					five.classList.remove("checked")
+					return
+				}
+			case '2': {
+				one.classList.add("checked")
+				two.classList.add("checked")
+				three.classList.remove("checked")
+				four.classList.remove("checked")
+				five.classList.remove("checked")
+				return
+			}
+			case '3': {
+				one.classList.add("checked")
+				two.classList.add("checked")
+				three.classList.add("checked")
+				four.classList.remove("checked")
+				five.classList.remove("checked")
+				return
+			}
+			case '4': {
+				one.classList.add("checked")
+				two.classList.add("checked")
+				three.classList.add("checked")
+				four.classList.add("checked")
+				five.classList.remove("checked")
+				return
+			}
+			case '5': {
+				one.classList.add("checked")
+				two.classList.add("checked")
+				three.classList.add("checked")
+				four.classList.add("checked")
+				five.classList.add("checked")
+				return
+			}
+		}
+	}
+
+	arr = [one, two, three, four, five]
+	arr.forEach(element => element.addEventListener('click', (event) => {
+		handleselect(event.target.id)
+		document.getElementById("rate").value = event.target.id
+	}));
+</script>
+{% endblock %}

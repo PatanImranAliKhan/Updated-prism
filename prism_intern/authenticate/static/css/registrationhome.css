@@ -1,0 +1,45 @@
+.section-100 {
+    padding: 100px 0;
+}
+
+.btn {
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 50px;
+    text-transform: uppercase;
+}
+
+.btn.btn-lg {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.btn-primary {
+    background-color: #ff9800;
+    border-color: #ff9800;
+}
+.card
+{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: auto;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+.card img {
+    width: 80%;
+    height: 200px;
+    margin: auto;
+}
+@media (max-width:792px)
+{
+    .row
+    {
+        display: inline-block;
+    }
+    .card
+    {
+        margin: auto;
+        margin-bottom: 15px;
+    }
+}
