@@ -1,7 +1,7 @@
 {% extends "adm_base.html" %}
 {% load static %}
 {% block title %}
-Approved Reports
+View images
 {% endblock %}
 {% block extra_style %}
 
@@ -11,11 +11,78 @@ Approved Reports
 		font-family: "Roboto", sans-serif;
 	}
 
-	.searchbut {
+	.searchbut
+	{
 		width: 50px;
 		background-color: rgb(191, 204, 204);
 		border: none;
 		cursor: pointer;
+	}
+
+	.onitemheader
+	{
+		display: inline-flex;
+	}
+
+	@media (max-width: 375px)
+	{
+		.onitemheader
+		{
+			display: inline-block;
+		}
+	}
+
+	.editbtn
+	{
+		float: right;
+		margin-bottom: 10px;
+		cursor: pointer;
+	}
+
+	.leftcon
+	{
+		font-size: 12px;
+	}
+
+	.leftbtn
+	{
+		display: inline-flex;
+		justify-content: space-between;
+		margin: 10px 15px;
+	}
+
+	.leftbtn .btn-danger
+	{
+		margin-left: 35px;
+	}
+
+	@media (max-width: 375px)
+	{
+		.leftbtn
+		{
+			display: inline-block;
+		}
+
+		.leftbtn .btn-danger
+		{
+			margin-top: 10px;
+			margin-left: 15px;
+		}
+	}
+
+	.leftlinksection
+	{
+		padding: 10px;
+		width: 100%;
+		height: 75px;
+		background-color: rgb(107, 175, 231);
+		border-radius: 30px;
+		text-align: center;
+	}
+
+	.leftlinksection a
+	{
+		font-size: 16px;
 	}
 
 	.box {
@@ -25,6 +92,7 @@ Approved Reports
 		background: #fff;
 		z-index: -10;
 		box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+		font-size: 16px;
 	}
 
 	@media (min-width: 768px) {
@@ -147,7 +215,6 @@ Approved Reports
 		content: "\f00c";
 		border: 2px solid #03a12b;
 	}
-
 	#progressbar li.disactive:before {
 		background: red;
 		font-family: FontAwesome;
@@ -225,9 +292,66 @@ Approved Reports
 			margin-left: 25px;
 		}
 	}
-
-	.textarea {
+	.textarea
+	{
 		border: 1px solid #000;
+	}
+	.accordion{
+	margin: 40px 0;
+	}
+	.accordion .item {
+		border: none;
+		margin-bottom: 50px;
+		background: none;
+	}
+	.t-p{
+		background: none;
+		color: #000;
+		padding: 40px 30px 0px 30px;
+	}
+	.accordion .item .item-header h2 button.btn.btn-link {
+		background: #333435;
+		color: white;
+		border-radius: 0px;
+		font-family: 'Poppins';
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 2.5;
+		text-decoration: none;
+	}
+	.accordion .item .item-header {
+		border-bottom: none;
+		background: transparent;
+		padding: 0px;
+		margin: 2px;
+	}
+
+	.accordion .item .item-header h2 button {
+		color: white;
+		font-size: 20px;
+		padding: 15px;
+		display: block;
+		width: 100%;
+		text-align: left;
+	}
+	.accordion .item .item-header h2 i {
+		float: right;
+		font-size: 30px;
+		color: #eca300;
+		background-color: black;
+		width: 60px;
+		height: 40px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 5px;
+	}
+	button.btn.btn-link.collapsed i {
+		transform: rotate(0deg);
+	}
+	button.btn.btn-link i {
+		transform: rotate(180deg);
+		transition: 0.5s;
 	}
 </style>
 {% endblock %}
@@ -235,146 +359,151 @@ Approved Reports
 <div>
 	{% if photos %}
 	<div class="container">
-		{% if success %}
-		<div class="alert alert-success" style="border-radius: 15px;">
-			{{success}}
-		</div>
-		{% endif %}
-		{% if error %}
-		<div class="alert alert-danger" style="border-radius: 15px;">
-			{{error}}
-		</div>
-		{% endif %}
 		<div class="col-md-6 offset-md-3 mt-5">
 			<form class="input-group mb-3" action="" method="POST">
 				{% csrf_token %}
-				<input type="text" class="form-control" name="search" placeholder="Search By Email..."
-					aria-label="Recipient's username">
+				<input type="text" class="form-control" name="search" placeholder="Search By Email..." aria-label="Recipient's username">
 				<div class="input-group-append">
 					<button class="searchbut" type="submit"><i class="fa fa-search"></i></button>
 				</div>
 			</form>
 		</div>
 		<br>
-		{% for photo in photos%}
-		<div class="box">
-			<div style="text-align: center;">
-				<h6><b>{{photo.email}}</b></h6>
-			</div>
-			<div class="row align-center">
-				<div class="col-md-5">
-					<div class="image-block">
-						<div class="img-image">
-							<img src="{{photo.file.url}}" alt="">
-						</div>
-					</div>
+		<div class="accordion" id="accordionExample">
+			{% for photo in photos%}
+			<div class="item">
+				<div class="item-header" id="headingOne">
+					<h2 class="mb-0">
+						<button class="btn btn-link" type="button" data-toggle="collapse"
+							data-target="#{{photo.file.url}}" aria-expanded="false">
+							<div class="onitemheader">
+								{{ forloop.counter }}. &nbsp;&nbsp; <img src="{{photo.file.url}}" width="10%" height="10%"> &nbsp;&nbsp;
+								{{photo.email}} &nbsp;&nbsp; {{photo.uploaded_date}} &nbsp;&nbsp; &nbsp;&nbsp;
+								Not Verified Till yet
+							</div>
+						<i class="fa fa-angle-down"></i>
+						</button>
+					</h2>
 				</div>
-				<div class="col-md-6">
-					<div class="rightcon">
-						<h5 style="text-align: center;"><b>Approvers</b></h5>
-						<div class="d-flex flex-md-row px-3 mt-4 flex-column-reverse">
-							<div>
-								<div class="card1">
-									<ul id="progressbar" class="text-center">
-										{% if photo.hdrstatus %}
-										<li class="active step0"></li>
-										{% else %}
-										<li class="step0"></li>
-										{% endif %}
-										{% if photo.beautystatus %}
-										<li class="active step0"></li>
-										{% else %}
-										<li class="step0"></li>
-										{% endif %}
-										{% if photo.bokehstatus %}
-										<li class="active step0"></li>
-										{% else %}
-										<li class="step0"></li>
-										{% endif %}
-										{% if photo.lightstatus %}
-										<li class="active step0"></li>
-										{% else %}
-										<li class="step0"></li>
-										{% endif %}
-									</ul>
-									<div>
-										<div class="appr">
-											<b>HDR</b><br>
-											<span>
-												<b>Email: </b> {{photo.hdr_appr_email}}
-											</span>
-											<br>
-											<div style="display: inline-flex;margin-top: 10px;">
-												{% if photo.hdrstatus %}
-												<p style="color: green;">verified</p>
-												{% else %}
-												<p style="color: blue;">Not Verified yet</p>
-												{% endif %}
+				<div id="{{photo.file.url}}" class="collapse" aria-labelledby="headingOne"
+					data-parent="#accordionExample">
+					<div class="t-p">
+						<form class="box" accept="" method="POST">
+							{% csrf_token %}
+							<!-- <div style="text-align: center;">
+								<h6><b>{{photo.email}}</b></h6>
+							</div> -->
+							<div class="row align-center">
+								<div class="col-md-6">
+									<div class="image-block">
+										<div class="img-image">
+											<!-- <img src="{{photo.file.url}}"
+												alt=""> -->
+											<div class="card bg-light leftcon">
+												<div style="padding: 15px;">
+													<b>Benchmarking Device name</b>
+													<p>{{photo.email}}</p>
+													<b>Competator Device</b>
+													<p>{{photo.competator1_name}}, {{photo.competator2_name}}</p>
+													{% if photo.comment %}
+													<b>Comment</b>
+													<div class="form-group">
+														<textarea class="form-control" name="review" disabled rows="3">{{photo.comment}}</textarea>
+													</div>
+													{% endif %}
+													<b>Aploaded Date</b>
+													<p>{{photo.uploaded_date}} &nbsp; {{photo.uploaded_time}}</p>
+												</div>
+												<div>
+													<div class="leftlinksection">
+														<p>Link to Benchamarking report</p>
+														<a href="{% url 'admviewreport' photo.id %}">Link</a>
+													</div>
+													<br>
+													<!-- <div class="leftbtn">
+														<button class="btn sm btn-primary btn-md" name="approve" value="{{photo.id}}">Approve</button>
+														<button class="btn sm btn-danger btn-md" name="disapprove" value="{{photo.id}}">DisApprove</button>
+													</div> -->
+													<br>
+												</div>
 											</div>
 										</div>
-										<div class="appr">
-											<b>BEAUTY</b><br>
-											<span>
-												<b>Email: </b> {{photo.beauty_appr_email}}
-											</span>
-											<br>
-											<div style="display: inline-flex;margin-top: 10px;">
-												{% if photo.beautystatus %}
-												<p style="color: green;">verified</p>
-												{% else %}
-												<p style="color: blue;">Not Verified yet</p>
-												{% endif %}
-											</div>
-										</div>
-										<div class="appr">
-											<b>BOKEH</b><br>
-											<span>
-												<b>Email: </b> {{photo.bokeh_appr_email}}
-											</span>
-											<br>
-											<div style="display: inline-flex;margin-top: 10px;">
-												{% if photo.bokehstatus %}
-												<p style="color: green;">verified</p>
-												{% else %}
-												<p style="color: blue;">Not Verified yet</p>
-												{% endif %}
-											</div>
-										</div>
-										<div class="appr">
-											<b>LIGHT</b><br>
-											<span>
-												<b>Email: </b> {{photo.light_appr_email}}
-											</span>
-											<br>
-											<div style="display: inline-flex;margin-top: 10px;">
-												{% if photo.lightstatus %}
-												<p style="color: green;">verified</p>
-												{% else %}
-												<p style="color: blue;">Not Verified yet</p>
-												{% endif %}
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="rightcon">
+										<h5 style="text-align: center;"><b>Approvers</b></h5>
+										<div class="d-flex flex-md-row px-3 mt-4 flex-column-reverse">
+											<div>
+												<div class="card1">
+													<ul id="progressbar" class="text-center">
+														<li class="active step0"></li>
+														<li class="active step0"></li>
+														<li class="active step0"></li>
+														<li class="active step0"></li>
+													</ul>
+													<div>
+														<div class="appr">
+															<b>Approver - 1</b><br>
+															<span>
+																<b>Email: </b> {{photo.approver1_email}}
+															</span>
+															<br>
+															<div style="display: inline-flex;margin-top: 10px;">
+																<p style="color: green;">verified</p>
+															</div>
+														</div>
+														<div class="appr">
+															<b>Approver - 2</b><br>
+															<span>
+																<b>Email: </b> {{photo.approver2_email}}
+															</span>
+															<br>
+															<div style="display: inline-flex;margin-top: 10px;">
+																<p style="color: green;">verified</p>
+															</div>
+														</div>
+														<div class="appr">
+															<b>Approver - 3</b><br>
+															<span>
+																<b>Email: </b> {{photo.approver3_email}}
+															</span>
+															<br>
+															<div style="display: inline-flex;margin-top: 10px;">
+																<p style="color: green;">verified</p>
+															</div>
+														</div>
+														<div class="appr">
+															<b>Approver - 4</b><br>
+															<span>
+																<b>Email: </b> {{photo.approver4_email}}
+															</span>
+															<br>
+															<div style="display: inline-flex;margin-top: 10px;">
+																<p style="color: green;">verified</p>
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<textarea class="form-control" name="review" disabled rows="3">{% if photo.comment %}{{photo.comment}} {% endif %}</textarea>
+						</form>
 					</div>
 				</div>
 			</div>
+			{% endfor %}
 		</div>
-		{% endfor %}
 	</div>
 	{% else %}
 	<div class="container">
 		<div class="jumbotron" style="width: 100%;">
 			<!-- <h1 class="display-4">304 Error</h1> -->
-			<p class="lead">No approvements of the Report has been done</p>
+			<p class="lead">No Approvements has been done yet by the Approvers.</p>
 		</div>
 	</div>
 	{% endif %}
 </div>
-
 {% endblock %}

@@ -45,144 +45,238 @@ def ApproverContactPage(request):
 def NewReports(request):
     email=request.session['email']
     if request.method=="POST":
-        id=request.POST.get("addcomment")
+        id=request.POST.get("addcomment") or request.POST.get("save")
         photo_details = Photo.objects.get(id=id)
-        review=request.POST['review']
+        
+        hdr_comment = request.POST['hdr']
+        beauty_comment = request.POST['beauty']
+        bokeh_comment = request.POST['bokeh']
+        light_comment = request.POST['light']
+        print(hdr_comment,beauty_comment,bokeh_comment,light_comment)
+        save_mode=False
+        if 'save' in request.POST:
+            save_mode=True
+            print("save_mode",save_mode)
 
-        if(request.session['category']=="hdr"):
+        html_data='Hi '+photo_details.email+', your Report has been approved by the approvers. Once verify it.'
+        apprsendemails('report Approved',html_data,photo_details.email)
+
+        if(hdr_comment!=None):
             try:
                 h=hdrReview.objects.get(email=request.session['email'],photo_id=id)
-                if h.review!=review:
-                    e=editReview(email=request.session['email'],photo_id=id,review=h.review)
-                    e.save()
-                    html_data='Hi '+photo_details.email+', your Report has been approved by the approvers. Once verify it.'
-                    apprsendemails('report Approved',html_data,photo_details.email)
-                    h.review=review
+                if h.review!=hdr_comment or h.save_mode==True:
+                    if(save_mode==False):
+                        e=editReview(email=request.session['email'],photo_id=id,review=h.review,category='hdr')
+                        e.save()
+                    h.review=hdr_comment
+                    h.save_mode=save_mode
                     h.photo_edited=False
                     h.save()
-            except:
-                hdr=hdrReview(email=request.session['email'],review=review,photo_id=id)
+            except: 
+                hdr=hdrReview(email=request.session['email'],review=hdr_comment,photo_id=id,save_mode=save_mode)
                 hdr.save()
-                html_data='Hi '+photo_details.email+', your Report has been approved by the approvers. Once verify it.'
-                apprsendemails('report Approved',html_data,photo_details.email)
-        elif (request.session['category']=="beauty"):
+
+            
+        if (beauty_comment!=None):
             try:
                 bea=beautyReview.objects.get(email=request.session['email'],photo_id=id)
-                e=editReview(email=request.session['email'],photo_id=id,review=bea.review)
-                e.save()
-                html_data='Hi '+photo_details.email+', your Report has been approved by the approvers. Once verify it.'
-                apprsendemails('report Approved',html_data,photo_details.email)
-                bea.review=review
-                bea.photo_edited=False
-                bea.save()
+                if bea.review!=beauty_comment or bea.save_mode==True:
+                    if(save_mode==False):
+                        e=editReview(email=request.session['email'],photo_id=id,review=bea.review,category='beauty')
+                        e.save()
+                    bea.review=beauty_comment
+                    bea.save_mode=save_mode
+                    bea.photo_edited=False
+                    bea.save()
             except:
-                beauty=beautyReview(email=request.session['email'],review=review,photo_id=id)
+                beauty=beautyReview(email=request.session['email'],review=beauty_comment,photo_id=id,save_mode=save_mode)
                 beauty.save()
-                html_data='Hi '+photo_details.email+', your Report has been approved by the approvers. Once verify it.'
-                apprsendemails('report Approved',html_data,photo_details.email)
-        elif (request.session['category']=="bokeh"):
+        if (bokeh_comment!=None):
             try:
                 bo=bokehReview.objects.get(email=request.session['email'],photo_id=id)
-                e=editReview(email=request.session['email'],photo_id=id,review=bo.review)
-                e.save()
-                html_data='Hi '+photo_details.email+', your Report has been approved by the approvers. Once verify it.'
-                apprsendemails('report Approved',html_data,photo_details.email)
-                bo.review=review
-                bo.photo_edited=False
-                bo.save()
+                if bo.review!=bokeh_comment or bo.save_mode==True:
+                    if (save_mode==False):
+                        e=editReview(email=request.session['email'],photo_id=id,review=bo.review, category='bokeh')
+                        e.save()
+                    bo.review=bokeh_comment
+                    bo.save_mode=save_mode
+                    bo.photo_edited=False
+                    bo.save()
             except:
-                bokeh=bokehReview(email=request.session['email'],review=review,photo_id=id)
+                bokeh=bokehReview(email=request.session['email'],review=bokeh_comment,photo_id=id,save_mode=save_mode)
                 bokeh.save()
-                html_data='Hi '+photo_details.email+', your Report has been approved by the approvers. Once verify it.'
-                apprsendemails('report Approved',html_data,photo_details.email)
-        else:
+        if (light_comment!=None):
             try:
                 li=lightReview.objects.get(email=request.session['email'],photo_id=id)
-                e=editReview(email=request.session['email'],photo_id=id,review=li.review)
-                e.save()
-                html_data='Hi '+photo_details.email+', your Report has been approved by the approvers. Once verify it.'
-                apprsendemails('report Approved',html_data,photo_details.email)
-                li.review=review
-                li.photo_edited=False
-                li.save()
+                if li.review!=light_comment or li.save_mode==True:
+                    if(save_mode==False):
+                        e=editReview(email=request.session['email'],photo_id=id,review=li.review, category='light')
+                        e.save()
+                    li.review=light_comment
+                    li.save_mode=save_mode
+                    li.photo_edited=False
+                    li.save()
             except:
-                light=lightReview(email=request.session['email'],review=review,photo_id=id)
+                light=lightReview(email=request.session['email'],review=light_comment,photo_id=id,save_mode=save_mode)
                 light.save()
-                html_data='Hi '+photo_details.email+', your Report has been approved by the approvers. Once verify it.'
-                apprsendemails('report Approved',html_data,photo_details.email)
         a=Approver.objects.get(email=email)
         a.assignments_done+=1
         a.save()
         return redirect('newreports')
-    # try:
-    ph=Photo.objects.all()
-    photos=[]
-    for i in ph:
-        d=[]
-        if(request.session['category']=="hdr"):
-            d=hdrReview.objects.filter(email=request.session['email'],photo_id=i.id) or []
-        elif (request.session['category']=="beauty"):
-            d=beautyReview.objects.filter(email=request.session['email'],photo_id=i.id) or[]
-        elif (request.session['category']=="bokeh"):
-            d=bokehReview.objects.filter(email=request.session['email'],photo_id=i.id) or []
-        else:
-            d=lightReview.objects.filter(email=request.session['email'],photo_id=i.id) or []
-        data=[]
-        
-        if len(d)==0:
-            photos.append(i)
-            print("data : ",data)
-        else:
-            for j in d:
-                if j.photo_edited==True:
-                    # k['edited_comment']=j.review
-                    photos.append(i)
-        # photos=data
-    return render(request, 'new_reports.html',{'photos':photos,'email':email})
-    # except:
-    #     print("exception")
-    #     return render(request, 'new_reports.html',{'photos':data,'email':email})
+    try:
+        ph=Photo.objects.all()
+        photos=[]
+        for i in ph:
+            d=[]
+            hdr_rev=hdrReview.objects.filter(email=request.session['email'],photo_id=i.id) or []
+            beauty_rev=beautyReview.objects.filter(email=request.session['email'],photo_id=i.id) or[]
+            bokeh_rev=bokehReview.objects.filter(email=request.session['email'],photo_id=i.id) or []
+            light_rev=lightReview.objects.filter(email=request.session['email'],photo_id=i.id) or []
+            data={}
+            print(hdr_rev)
+            # print(hdr_rev[0].save_mode)
+            if len(hdr_rev)!=0 or len(beauty_rev)!=0 or len(bokeh_rev)!=0 or len(light_rev)!=0:
+                # if(hdr_rev[0].save_mode==True or beauty_rev[0].save_mode==True or bokeh_rev[0].save_mode==True or light_rev[0].save_mode==True):
+                temp=0
+                if(len(hdr_rev)!=0 and hdr_rev[0].save_mode==True):
+                    temp=1
+                    data['hdr_rev']=hdr_rev[0].review
+                else:
+                    data['hdr_rev']=""
+                if(len(beauty_rev)!=0 and beauty_rev[0].save_mode==True):
+                    temp=1
+                    data['beauty_rev']=beauty_rev[0].review
+                else:
+                    data['beauty_rev']=""
+                if(len(bokeh_rev)!=0 and bokeh_rev[0].save_mode==True):
+                    temp=1
+                    data['bokeh_rev']=bokeh_rev[0].review
+                else:
+                    data['bokeh_rev']=""
+                if(len(light_rev)!=0 and light_rev[0].save_mode==True):
+                    temp=1
+                    data['light_rev']=light_rev[0].review
+                else:
+                    data['light_rev']=""
+                if(temp==1):
+                    photos.append({
+                        'id':i.id,
+                        'email':i.email,
+                        'samsung_image': i.samsung_image,
+                        'competator1_name': i.competator1_name,
+                        'competator2_name': i.competator2_name,
+                        'uploaded_date':i.uploaded_date,
+                        'uploaded_time':i.uploaded_time,
+                        'hdr_rev':data['hdr_rev'],
+                        'beauty_rev':data['beauty_rev'],
+                        'bokeh_rev':data['bokeh_rev'],
+                        'light_rev':data['light_rev']
+                    })
+                print(data)
+                continue
+            else:
+                photos.append(i)
+        print("photos = ",photos)
+        return render(request, 'new_reports.html',{'photos':photos,'email':email})
+    except Exception as e:
+        print("exception ",e)
+        return render(request, 'new_reports.html',{'photos':ph,'email':email,'exception':e})
 
 def AlreadyVerifiedReports(request):
     email=request.session['email']
     # data=hdrReview.objects.all(email=request.session['email'],review="").exclude(review="")
     photos=[]
     if request.method=="POST":
-        print()
-        review=request.POST['editedreview']
-        id=request.POST.get('edit')
+        id=request.POST.get("edit")
         photo_details = Photo.objects.get(id=id)
-        h=hdrReview.objects.get(email=request.session['email'],photo_id=id)
-        if h.review!=review:
-            e=editReview(email=request.session['email'],photo_id=id,review=h.review)
-            e.save()
-            h.review=review
-            h.save()
-            html_data='Hi '+photo_details.email+', your Report status has been updated by the approvers. Once verify it.'
-            apprsendemails('Updated report Status',html_data,photo_details.email)
-    try:
-        if(request.session['category']=="hdr"):
-            d=hdrReview.objects.filter(email=request.session['email']) or []
-        elif (request.session['category']=="beauty"):
-            d=beautyReview.objects.filter(email=request.session['email']) or[]
-        elif (request.session['category']=="bokeh"):
-            d=bokehReview.objects.filter(email=request.session['email']) or []
-        else:
-            d=lightReview.objects.filter(email=request.session['email']) or []
-        for i in d:
+        
+        hdr_comment = request.POST['hdr']
+        beauty_comment = request.POST['beauty']
+        bokeh_comment = request.POST['bokeh']
+        light_comment = request.POST['light']
+
+        html_data='Hi '+photo_details.email+', your Report has been approved by the approvers. Once verify it.'
+        apprsendemails('report Approved',html_data,photo_details.email)
+
+        if(hdr_comment!=None):
             try:
-                p=Photo.objects.get(id=i.photo_id)
-                abc = {
-                    "id":p.id,
-                    "file":p.file,
-                    "comment":i.review
-                }
-                photos.append(abc)
-            except Exception as e:
-                print(e)
-        return render(request, 'appr_verified_reports.html',{'photos':photos,'email':email})
-    except:
-        return render(request, 'appr_verified_reports.html',{'photos':photos,'email':email})
+                h=hdrReview.objects.get(email=request.session['email'],photo_id=id)
+                if hdr_comment!=None and h.review!=hdr_comment:
+                    e=editReview(email=request.session['email'],photo_id=id,review=h.review,category='hdr')
+                    e.save()
+                    h.review=hdr_comment
+                    h.save_mode=False
+                    h.photo_edited=False
+                    h.save()
+            except: 
+                hdr=hdrReview(email=request.session['email'],review=hdr_comment,photo_id=id)
+                hdr.save()
+        if (beauty_comment!=None):
+            try:
+                bea=beautyReview.objects.get(email=request.session['email'],photo_id=id)
+                if bea.review!=beauty_comment:
+                    e=editReview(email=request.session['email'],photo_id=id,review=bea.review,category='beauty')
+                    e.save()
+                    bea.review=beauty_comment
+                    bea.save_mode=False
+                    bea.photo_edited=False
+                    bea.save()
+            except:
+                beauty=beautyReview(email=request.session['email'],review=beauty_comment,photo_id=id)
+                beauty.save()
+        if (bokeh_comment!=None):
+            try:
+                bo=bokehReview.objects.get(email=request.session['email'],photo_id=id)
+                if bo.review!=bokeh_comment:
+                    e=editReview(email=request.session['email'],photo_id=id,review=bo.review, category='bokeh')
+                    e.save()
+                    bo.review=bokeh_comment
+                    bo.save_mode=False
+                    bo.photo_edited=False
+                    bo.save()
+            except:
+                bokeh=bokehReview(email=request.session['email'],review=bokeh_comment,photo_id=id)
+                bokeh.save()
+        if (light_comment!=None):
+            try:
+                li=lightReview.objects.get(email=request.session['email'],photo_id=id)
+                if li.review!=light_comment:
+                    e=editReview(email=request.session['email'],photo_id=id,review=li.review, category='light')
+                    e.save()
+                    li.review=light_comment
+                    li.save_mode=False
+                    li.photo_edited=False
+                    li.save()
+            except:
+                light=lightReview(email=request.session['email'],review=light_comment,photo_id=id)
+                light.save()
+        return redirect('verified_reports')
+    try:
+        ph=Photo.objects.all()
+        photos=[]
+        data={}
+        for i in ph:
+            d=[]
+            hdr_rev=hdrReview.objects.filter(email=request.session['email'],photo_id=i.id) or []
+            beauty_rev=beautyReview.objects.filter(email=request.session['email'],photo_id=i.id) or[]
+            bokeh_rev=bokehReview.objects.filter(email=request.session['email'],photo_id=i.id) or []
+            light_rev=lightReview.objects.filter(email=request.session['email'],photo_id=i.id) or []
+            
+            if len(hdr_rev)!=0 or len(beauty_rev)!=0 or len(bokeh_rev)!=0 or len(light_rev)!=0:
+                photos.append(i)
+            if(len(hdr_rev)!=0):
+                data['hdr_rev']=hdr_rev[0].review
+            if(len(beauty_rev)!=0):
+                data['beauty_rev']=beauty_rev[0].review
+            if(len(bokeh_rev)!=0):
+                data['bokeh_rev']=bokeh_rev[0].review
+            if(len(light_rev)!=0):
+                data['light_rev']=light_rev[0].review
+        print("photos = ",photos)
+        print("data = ",data)
+        return render(request, 'appr_verified_reports.html',{'photos':photos,'email':email,'rev_data':data})
+    except Exception as e:
+        return render(request, 'appr_verified_reports.html',{'photos':data,'email':email,'exception':e})
 
 def ProfilePage(request):
     a=Approver.objects.get(email=request.session['email'])

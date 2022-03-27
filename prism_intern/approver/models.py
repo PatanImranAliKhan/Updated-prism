@@ -7,7 +7,6 @@ class Approver(models.Model):
     username=models.CharField(max_length=60)
     email=models.CharField(max_length=60,primary_key=True)
     mobile=models.BigIntegerField()
-    category=models.CharField(max_length=30,choices=categories,default="hdr",blank=True)
     password=models.CharField(max_length=255)
     profilepic=models.ImageField(upload_to='profilepics/', default='profilepics\defaultpicimg.png')
     bio=models.TextField(blank=True)

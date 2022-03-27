@@ -1,5 +1,4 @@
 from sqlite3 import Date
-from unicodedata import category
 from django.shortcuts import render
 from django.shortcuts import redirect
 from administrator.forms import FeedbackForm
@@ -75,7 +74,6 @@ def LoginPage(request):
                 pa=a.password
                 if check_password(password, pa):
                     print(a)
-                    request.session['category']=a.category
                     if a.assign=="True":
                         AddSession(request, a)
                         request.session['profession']='approver'

@@ -407,7 +407,7 @@ View images
 													<b>Benchmarking Device name</b>
 													<p>{{photo.email}}</p>
 													<b>Competator Device</b>
-													<p>Realme Oneplus, Iphone</p>
+													<p>{{photo.competator1_name}}, {{photo.competator2_name}}</p>
 													{% if photo.comment %}
 													<b>Comment</b>
 													<div class="form-group">
@@ -440,22 +440,22 @@ View images
 											<div>
 												<div class="card1">
 													<ul id="progressbar" class="text-center">
-														{% if photo.hdrstatus %}
+														{% if photo.approver1_status %}
 														<li class="active step0"></li>
 														{% else %}
 														<li class="step0"></li>
 														{% endif %}
-														{% if photo.beautystatus %}
+														{% if photo.approver2_status %}
 														<li class="active step0"></li>
 														{% else %}
 														<li class="step0"></li>
 														{% endif %}
-														{% if photo.bokehstatus %}
+														{% if photo.approver3_status %}
 														<li class="active step0"></li>
 														{% else %}
 														<li class="step0"></li>
 														{% endif %}
-														{% if photo.lightstatus %}
+														{% if photo.approver4_status %}
 														<li class="active step0"></li>
 														{% else %}
 														<li class="step0"></li>
@@ -463,58 +463,58 @@ View images
 													</ul>
 													<div>
 														<div class="appr">
-															<b>HDR</b><br>
+															<b>Approver - 1</b><br>
 															<span>
-																<b>Email: </b> {{photo.hdr_appr_email}}
+																<b>Email: </b> {{photo.approver1_email}}
 															</span>
 															<br>
 															<div style="display: inline-flex;margin-top: 10px;">
-																{% if photo.hdrstatus %}
+																{% if photo.approver1_status %}
 																<p style="color: green;">verified</p>
 																{% else %}
-																<p style="color: blue;">Not Verified yet</p>
+																<p style="color: blue;">Pending..</p>
 																{% endif %}
 															</div>
 														</div>
 														<div class="appr">
-															<b>BEAUTY</b><br>
+															<b>Approver - 2</b><br>
 															<span>
-																<b>Email: </b> {{photo.beauty_appr_email}}
+																<b>Email: </b> {{photo.approver2_email}}
 															</span>
 															<br>
 															<div style="display: inline-flex;margin-top: 10px;">
-																{% if photo.beautystatus %}
+																{% if photo.approver2_status %}
 																<p style="color: green;">verified</p>
 																{% else %}
-																<p style="color: blue;">Not Verified yet</p>
+																<p style="color: blue;">Pending..</p>
 																{% endif %}
 															</div>
 														</div>
 														<div class="appr">
-															<b>BOKEH</b><br>
+															<b>Approver - 3</b><br>
 															<span>
-																<b>Email: </b> {{photo.bokeh_appr_email}}
+																<b>Email: </b> {{photo.approver3_email}}
 															</span>
 															<br>
 															<div style="display: inline-flex;margin-top: 10px;">
-																{% if photo.bokehstatus %}
+																{% if photo.approver3_status %}
 																<p style="color: green;">verified</p>
 																{% else %}
-																<p style="color: blue;">Not Verified yet</p>
+																<p style="color: blue;">Pending..</p>
 																{% endif %}
 															</div>
 														</div>
 														<div class="appr">
-															<b>LIGHT</b><br>
+															<b>Approver - 4</b><br>
 															<span>
-																<b>Email: </b> {{photo.light_appr_email}}
+																<b>Email: </b> {{photo.approver4_email}}
 															</span>
 															<br>
 															<div style="display: inline-flex;margin-top: 10px;">
-																{% if photo.lightstatus %}
+																{% if photo.approver4_status %}
 																<p style="color: green;">verified</p>
 																{% else %}
-																<p style="color: blue;">Not Verified yet</p>
+																<p style="color: blue;">Pending..</p>
 																{% endif %}
 															</div>
 														</div>
@@ -566,7 +566,7 @@ View images
 <script>
 	function SharedViewModalClick(email,file)
 	{
-		var a=`http://localhost:8000/sharedview/just-for-view/for-the-user/${email}/${file}`;
+		var a=`http://127.0.0.1:8000/sharedview/just-for-view/for-the-user/${email}/${file}`;
 		console.log(a)
 		document.getElementById('SharedurlModalLabel').innerHTML="Shared URL";
 		document.getElementById('sharedview').innerHTML=a;

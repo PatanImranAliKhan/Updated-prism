@@ -1,38 +1,339 @@
 {% extends "appr_base.html" %}
-{% load static %}
 {% block title %}
-	Verified Reports
+Verified Reports
 {% endblock %}
 {% block extra_style %}
 <style>
 	@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
-	.card
-	{
-		margin-bottom: 10px;
-		border-radius: 10px;
+	body {
+		background: #4378a0;
+		font-family: "Roboto", sans-serif;
 	}
-	@media (max-width: 575px)
+	.onitemheader
 	{
-		.card
+		display: inline-flex;
+	}
+
+	@media (max-width: 375px)
+	{
+		.onitemheader
 		{
-			margin: 0 auto;
-			margin-bottom: 10px;
+			display: inline-block;
 		}
 	}
-	.review
+
+	.editbtn
 	{
-		margin-top: -10px;
-		height: 40px;
-		color: blue;
-		margin-left: 50px;
-		background-color: rgb(110, 231, 240);
+		float: right;
+		margin-bottom: 10px;
+		cursor: pointer;
 	}
-	.Benchmark
+
+	.leftcon
 	{
-		text-decoration: none;
+		font-size: 12px;
+	}
+
+	.leftbtn
+	{
+		display: inline-flex;
+		justify-content: space-between;
+		margin: 10px 15px;
+	}
+
+	.leftbtn .btn-danger
+	{
+		margin-left: 35px;
+	}
+
+	@media (max-width: 375px)
+	{
+		.leftbtn
+		{
+			display: inline-block;
+		}
+
+		.leftbtn .btn-danger
+		{
+			margin-top: 10px;
+			margin-left: 15px;
+		}
+	}
+
+	.leftlinksection
+	{
+		padding: 10px;
+		width: 100%;
+		height: 75px;
+		background-color: rgb(107, 175, 231);
+		border-radius: 30px;
+		text-align: center;
+	}
+
+	.leftlinksection a
+	{
+		font-size: 16px;
+	}
+
+	.box {
+		padding: 30px;
+		margin-bottom: 30px;
+		border-radius: 10px;
+		background: #fff;
+		z-index: -10;
+		box-shadow: 0 2px 30px rgba(0, 0, 0, 0.1);
+		font-size: 16px;
+	}
+
+	@media (min-width: 768px) {
+		.box {
+			padding: 50px;
+		}
+	}
+
+	.align-center {
+		align-items: center;
+	}
+
+	.image-block {
+		position: relative;
+	}
+
+	.image-block .img-image {
+		position: relative;
+		margin-top: 30px;
+	}
+
+	@media (min-width: 768px) {
+		.image-block .img-image {
+			width: 90%;
+			margin: 0 auto;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.box {
+			height: auto;
+		}
+	}
+
+	.image-block .img-image img {
+		height: 400px;
+		width: 100%;
+		object-fit: cover;
+		border-radius: 10px;
+		box-shadow: 0 5px 30px -3px rgba(0, 0, 0, 0.1);
+	}
+
+	.card1 {
+		margin-left: 140px;
+		z-index: 0;
+	}
+
+	#progressbar {
+		position: absolute;
+		left: 35px;
+		overflow: hidden;
+		color: #E53935;
+	}
+
+	#progressbar li {
+		list-style-type: none;
+		font-size: 8px;
+		font-weight: 400;
+		margin-bottom: 80px;
+	}
+
+	#progressbar .step0:before {
+		content: "";
+		color: #fff
+	}
+
+	#progressbar li:before {
+		width: 30px;
+		height: 30px;
+		line-height: 30px;
+		display: block;
+		font-size: 20px;
+		border: 2px solid #3547e5;
+		background: #3547e5;
+		border-radius: 50%;
+		margin: auto;
+	}
+
+	#progressbar li:after {
+		content: '';
+		width: 3px;
+		height: 80px;
+		background: #03a12b;
+		position: absolute;
+		left: 70px;
+		top: 30px;
+		z-index: 0;
+	}
+
+	#progressbar li:nth-child(2):after {
+		top: 140px
+	}
+
+	#progressbar li:nth-child(1):after {
+		top: 30px
+	}
+
+	/* #progressbar li:first-child:after {
+		position: absolute;
+		top: -81px
+	} */
+
+	#progressbar li:first-child:after {
+		position: absolute;
+	}
+
+	#progressbar li.active:after {
+		background: #03ac28;
+		height: 80px;
+		z-index: 10;
+	}
+
+	#progressbar li.active:before {
+		background: #03a12b;
+		font-family: FontAwesome;
+		content: "\f00c";
+		border: 2px solid #03a12b;
+	}
+	#progressbar li.disactive:before {
+		background: red;
+		font-family: FontAwesome;
+		content: "\f00d";
+		border: 2px solid red;
+	}
+
+	.appr {
+		word-wrap: break-word;
+	}
+
+	.seereport {
 		color: blue;
-		font-size: 13px;
-		margin-top: 8px;
+		border-bottom: 1px solid blue;
+		cursor: pointer;
+		margin-left: 75px;
+	}
+
+	@media (max-width: 992px) {
+		.card1 {
+			margin-left: 75px;
+		}
+
+		#progressbar {
+			left: 0px;
+		}
+
+		.image-block .img-image {
+			width: 100%;
+			margin: 0 auto;
+		}
+	}
+
+	@media screen and (max-width: 912px) {
+		.card1 {
+			border: none;
+			margin-left: 50px;
+		}
+
+		#progressbar {
+			left: -25px;
+		}
+	}
+
+	@media screen and (max-width: 465px) {
+		#progressbar li {
+			margin-bottom: 120px;
+		}
+
+		#progressbar li:after {
+			height: 120px;
+		}
+
+		#progressbar li:nth-child(2):after {
+			top: 180px
+		}
+
+		/* 
+		#progressbar li:nth-child(1):after {
+			top: 30px;
+		} */
+		#progressbar li.active:after {
+			background: #03ac28;
+			height: 120px;
+			z-index: 10;
+		}
+	}
+
+	@media screen and (max-width: 330px) {
+		.seereport {
+			margin-left: 25px;
+		}
+	}
+	.textarea
+	{
+		border: 1px solid #000;
+	}
+	.accordion{
+	margin: 40px 0;
+	}
+	.accordion .item {
+		border: none;
+		margin-bottom: 50px;
+		background: none;
+	}
+	.t-p{
+		background: none;
+		color: #000;
+		padding: 40px 30px 0px 30px;
+	}
+	.accordion .item .item-header h2 button.btn.btn-link {
+		background: #333435;
+		color: white;
+		border-radius: 0px;
+		font-family: 'Poppins';
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 2.5;
+		text-decoration: none;
+	}
+	.accordion .item .item-header {
+		border-bottom: none;
+		background: transparent;
+		padding: 0px;
+		margin: 2px;
+	}
+
+	.accordion .item .item-header h2 button {
+		color: white;
+		font-size: 20px;
+		padding: 15px;
+		display: block;
+		width: 100%;
+		text-align: left;
+	}
+	.accordion .item .item-header h2 i {
+		float: right;
+		font-size: 30px;
+		color: #eca300;
+		background-color: black;
+		width: 60px;
+		height: 40px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 5px;
+	}
+	button.btn.btn-link.collapsed i {
+		transform: rotate(0deg);
+	}
+	button.btn.btn-link i {
+		transform: rotate(180deg);
+		transition: 0.5s;
 	}
 </style>
 {% endblock %}
@@ -40,41 +341,99 @@
 <div>
 	<div class="container">
 		<br>
+		<h2 style="text-align: center;margin-bottom: 20px;">Verified Reports</h2>
+		{% if exception %}
+		<div class="alert alert-danger">
+			{{exception}}
+		</div>
+		{% endif %}
 		<br>
-		<div class="row">
-			{% if photos %}
-			{% for photo in photos %}
-			<div class="col-lg-4 col-sm-6">
-				<div class="card" style="width: 18rem;">
-					<br>
-					<img class="card-img-top" src="{{photo.file.url}}" alt="Card image cap">
-					<div class="card-body">
-						<!-- <h5 class="card-title">Photo {{ forloop.counter }}</h5> -->
-						<form accept="" method="post">
-							{% csrf_token %}
-							<b>Comment:</b>
-							<div class="form-group">
-								<textarea class="form-control" name="editedreview" rows="3">{% if photo.comment %}{{photo.comment}} {% endif %}</textarea>
+		{% if photos %}
+		<div class="accordion" id="accordionExample">
+			{% for photo in photos%}
+			<div class="item">
+				<div class="item-header" id="headingOne">
+					<h2 class="mb-0">
+						<button class="btn btn-link" type="button" data-toggle="collapse"
+							data-target="#{{photo.samsung_image.url}}" aria-expanded="false">
+							<div class="onitemheader">
+								{{ forloop.counter }}. &nbsp;&nbsp; <img src="{{photo.samsung_image.url}}" width="10%" height="10%"> &nbsp;&nbsp;
+								{{photo.email}} &nbsp;&nbsp; {{photo.uploaded_date}}
 							</div>
-							<div class="row">
-								<p class="col-md-1"></p>
-								<button type="submit" class="col-md-3 btn btn-primary" name="edit" value="{{photo.id}}">Edit</button>
-								<a class="col-sm-6 Benchmark" href="{% url 'apprviewreport' photo.id %}">BenchmarkReport</a>
+						<i class="fa fa-angle-down"></i>
+						</button>
+					</h2>
+				</div>
+				<div id="{{photo.samsung_image.url}}" class="collapse" aria-labelledby="headingOne"
+					data-parent="#accordionExample">
+					<div class="t-p">
+						<form class="box" accept="" method="POST">
+							{% csrf_token %}
+							<div class="row align-center">
+								<div class="col-md-6">
+									<div class="image-block">
+										<div class="img-image">
+											<img src="{{photo.samsung_image.url}}" style="width: 350px;height: 350px;" alt="{{photo.email}}">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">									
+									<div class="card bg-light leftcon">
+										<!-- {% if photo.is_edited %}
+										<b style="color: red;text-align: right;margin-right: 25px;margin-top: 5px;">edited</b>
+										{% endif %} -->
+										<div style="padding: 15px;">
+											<b>Benchmarking Device name</b>
+											<p>{{photo.email}}</p>
+											<b>Competator Device</b>
+											<p>{{photo.competator2_name}}, {{photo.competator1_name}}</p>
+											<b>Comment</b><br>
+											<div class="form-group">
+												<label style="font-weight: bold;">HDR</label>
+												<textarea class="form-control" name="hdr" rows="1">{% if rev_data.hdr_rev %}{{rev_data.hdr_rev}}{% endif %}</textarea>
+											</div>
+											<div class="form-group">
+												<label style="font-weight: bold;">Beauty</label>
+												<textarea class="form-control" name="beauty" rows="1">{% if rev_data.beauty_rev %}{{rev_data.beauty_rev}}{% endif %}</textarea>
+											</div>
+											<div class="form-group">
+												<label style="font-weight: bold;">Bokeh</label>
+												<textarea class="form-control" name="bokeh" rows="1">{% if rev_data.bokeh_rev %}{{rev_data.bokeh_rev}}{% endif %}</textarea>
+											</div>
+											<div class="form-group">
+												<label style="font-weight: bold;">Light</label>
+												<textarea class="form-control" name="light" rows="1">{% if rev_data.light_rev %}{{rev_data.light_rev}}{% endif %}</textarea>
+											</div>
+											<b>Aploaded Date</b>
+											<p>{{photo.uploaded_date}} &nbsp; {{photo.uploaded_time}}</p>
+										</div>
+										<div>
+											<div class="leftlinksection">
+												<p>Link to Benchamarking report</p>
+												<a href="{% url 'apprviewreport' photo.id %}">Link</a>
+											</div>
+											<br>
+											<div class="leftbtn">
+												<button class="btn sm btn-primary btn-md" type="submit" name="edit" value="{{photo.id}}">Edit Review</button>
+											</div>
+											<br>
+										</div>
+									</div>
+								</div>
 							</div>
 						</form>
-						<br>
 					</div>
 				</div>
 			</div>
 			{% endfor %}
-			{% else %}
-			<div class="jumbotron" style="width: 100%;">
-				<!-- <h1 class="display-4">304 Error</h1> -->
-				<p class="lead"><b>No Images has been verified yet</b></p>
-			</div>
-			{% endif %}
 		</div>
+		{% else %}
+		<div class="jumbotron" style="width: 100%;">
+			<p class="lead">You have not verified any reports yet</p>
+		</div>
+		{% endif %}
 	</div>
 </div>
+
 
 {% endblock %}

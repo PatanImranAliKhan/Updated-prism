@@ -6,34 +6,15 @@ from django.forms import TextInput,NumberInput,EmailInput
 from .models import Feedback
 
 class PhotoForm(forms.ModelForm):
-    x = forms.FloatField(widget=forms.HiddenInput())
-    y = forms.FloatField(widget=forms.HiddenInput())
-    width = forms.FloatField(widget=forms.HiddenInput())
-    height = forms.FloatField(widget=forms.HiddenInput())
-
     class Meta:
         model = Photo
-        fields = ('file', 'x', 'y', 'width', 'height', 'email','uploaded_date','uploaded_time',)
+        fields = ('samsung_image','apple_image','oneplus_image', 'email','uploaded_date','uploaded_time','competator1_name','competator2_name')
         # form.fields['field_name'].widget = forms.HiddenInput()
         widgets={
             'email':forms.HiddenInput(),
             'uploaded_date':forms.HiddenInput(),
             'uploaded_time':forms.HiddenInput(),
         }
-
-    def save(self):
-        photo = super(PhotoForm, self).save()
-
-        x = self.cleaned_data.get('x')
-        y = self.cleaned_data.get('y')
-        w = self.cleaned_data.get('width')
-        h = self.cleaned_data.get('height')
-
-        image = Image.open(photo.file)
-        cropped_image = image.crop((x, y, w+x, h+y))
-        resized_image = cropped_image.resize((200, 200), Image.ANTIALIAS)
-        resized_image.save(photo.file.path)
-        return photo
 
 
 class FeedbackForm(forms.ModelForm):

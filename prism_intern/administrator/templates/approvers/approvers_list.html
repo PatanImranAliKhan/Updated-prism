@@ -50,7 +50,6 @@ Approvers
 							<th scope="col">S.No</th>
 							<th scope="col">Name</th>
 							<th scope="col">Email</th>
-							<th scope="col">Category</th>
 							<th scope="col">Action</th>
 						</tr>
 					</thead>
@@ -60,7 +59,6 @@ Approvers
 								<th scope="row">{{ forloop.counter }}</th>
 								<td>{{approver.username}}</td>
 								<td>{{approver.email}}</td>
-								<td>{{approver.category}}</td>
 								<td><a href="{% url 'approverdetails' approver.email %}" class="anchor">View</a></td>
 							</tr>
 						{% endfor %}

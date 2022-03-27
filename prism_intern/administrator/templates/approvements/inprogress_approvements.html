@@ -1,7 +1,7 @@
 {% extends "adm_base.html" %}
 {% load static %}
 {% block title %}
-New Approvements
+Inprogress Approvements
 {% endblock %}
 {% block extra_style %}
 
@@ -393,9 +393,6 @@ New Approvements
 							<!-- <div style="text-align: center;">
 								<h6><b>{{photo.email}}</b></h6>
 							</div> -->
-							<!-- <div class="editbtn">
-								<a href="{% url 'editapprovement' photo.id %}" style="color: #000;"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a>
-							</div> -->
 							<div class="row align-center">
 								<div class="col-md-6">
 									<div class="image-block">
@@ -407,11 +404,13 @@ New Approvements
 													<b>Benchmarking Device name</b>
 													<p>{{photo.email}}</p>
 													<b>Competator Device</b>
-													<p>Realme Oneplus, Iphone</p>
+													<p>{{photo.competator1_name}}, {{photo.competator2_name}}</p>
+													{% if photo.comment %}
 													<b>Comment</b>
 													<div class="form-group">
-														<textarea class="form-control" name="review" disabled rows="3">{% if photo.comment %}{{photo.comment}} {% endif %}</textarea>
+														<textarea class="form-control" name="review" disabled rows="3">{{photo.comment}}</textarea>
 													</div>
+													{% endif %}
 													<b>Aploaded Date</b>
 													<p>{{photo.uploaded_date}} &nbsp; {{photo.uploaded_time}}</p>
 												</div>
@@ -438,22 +437,22 @@ New Approvements
 											<div>
 												<div class="card1">
 													<ul id="progressbar" class="text-center">
-														{% if photo.hdrstatus %}
+														{% if photo.approver1_status %}
 														<li class="active step0"></li>
 														{% else %}
 														<li class="step0"></li>
 														{% endif %}
-														{% if photo.beautystatus %}
+														{% if photo.approver2_status %}
 														<li class="active step0"></li>
 														{% else %}
 														<li class="step0"></li>
 														{% endif %}
-														{% if photo.bokehstatus %}
+														{% if photo.approver3_status %}
 														<li class="active step0"></li>
 														{% else %}
 														<li class="step0"></li>
 														{% endif %}
-														{% if photo.lightstatus %}
+														{% if photo.approver4_status %}
 														<li class="active step0"></li>
 														{% else %}
 														<li class="step0"></li>
@@ -461,58 +460,58 @@ New Approvements
 													</ul>
 													<div>
 														<div class="appr">
-															<b>HDR</b><br>
+															<b>Approver - 1</b><br>
 															<span>
-																<b>Email: </b> {{photo.hdr_appr_email}}
+																<b>Email: </b> {{photo.approver1_email}}
 															</span>
 															<br>
 															<div style="display: inline-flex;margin-top: 10px;">
-																{% if photo.hdrstatus %}
+																{% if photo.approver1_status %}
 																<p style="color: green;">verified</p>
 																{% else %}
-																<p style="color: blue;">Not Verified yet</p>
+																<p style="color: blue;">Pending..</p>
 																{% endif %}
 															</div>
 														</div>
 														<div class="appr">
-															<b>BEAUTY</b><br>
+															<b>Approver - 2</b><br>
 															<span>
-																<b>Email: </b> {{photo.beauty_appr_email}}
+																<b>Email: </b> {{photo.approver2_email}}
 															</span>
 															<br>
 															<div style="display: inline-flex;margin-top: 10px;">
-																{% if photo.beautystatus %}
+																{% if photo.approver2_status %}
 																<p style="color: green;">verified</p>
 																{% else %}
-																<p style="color: blue;">Not Verified yet</p>
+																<p style="color: blue;">Pending..</p>
 																{% endif %}
 															</div>
 														</div>
 														<div class="appr">
-															<b>BOKEH</b><br>
+															<b>Approver - 3</b><br>
 															<span>
-																<b>Email: </b> {{photo.bokeh_appr_email}}
+																<b>Email: </b> {{photo.approver3_email}}
 															</span>
 															<br>
 															<div style="display: inline-flex;margin-top: 10px;">
-																{% if photo.bokehstatus %}
+																{% if photo.approver3_status %}
 																<p style="color: green;">verified</p>
 																{% else %}
-																<p style="color: blue;">Not Verified yet</p>
+																<p style="color: blue;">Pending..</p>
 																{% endif %}
 															</div>
 														</div>
 														<div class="appr">
-															<b>LIGHT</b><br>
+															<b>Approver - 4</b><br>
 															<span>
-																<b>Email: </b> {{photo.light_appr_email}}
+																<b>Email: </b> {{photo.approver4_email}}
 															</span>
 															<br>
 															<div style="display: inline-flex;margin-top: 10px;">
-																{% if photo.lightstatus %}
+																{% if photo.approver4_status %}
 																<p style="color: green;">verified</p>
 																{% else %}
-																<p style="color: blue;">Not Verified yet</p>
+																<p style="color: blue;">Pending..</p>
 																{% endif %}
 															</div>
 														</div>
@@ -533,41 +532,9 @@ New Approvements
 	{% else %}
 	<div class="container">
 		<div class="jumbotron" style="width: 100%;">
-			<!-- <h1 class="display-4">304 Error</h1> -->
-			<p class="lead">All reports has been verified by the approvers</p>
+			<p class="lead">No inprogress Approvements. Either the all approvers has been done their work. or No user has been uploaded the reports.</p>
 		</div>
 	</div>
 	{% endif %}
 </div>
-
-<div class="modal fade" id="Sharedurl" tabindex="-1" role="dialog" aria-labelledby="SharedurlModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="SharedurlModalLabel"></h5>
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<p id="sharedview"></p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
-					data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<script>
-	function ModalClick(data)
-	{
-		document.getElementById('SharedurlModalLabel').innerHTML="Report";
-		document.getElementById('sharedview').innerHTML=data;
-	}
-</script>
-
 {% endblock %}

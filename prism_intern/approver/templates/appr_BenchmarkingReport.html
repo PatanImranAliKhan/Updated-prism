@@ -76,17 +76,6 @@ Benchmarking Report
 <div class="container">
 	<h5 style="text-align: left;color: #000;font-size: 30px;"><b>Online Benchmarking Report</b></h5>
 	<div class="box">
-		<div style="text-align: center;margin-bottom: 20px;">
-			<!-- <h6><b>{{photo.email}}</b></h6> -->
-			<div class="d-flex justify-content-center">
-				<ul id="nav-tabs" class="nav nav-pills">
-					<li class="active"><a data-toggle="tab" class="nav-link active"href="#hdr">Hdr</a></li>
-					<li><a data-toggle="tab" class="nav-link" href="#beauty">Beauty</a></li>
-					<li><a data-toggle="tab" class="nav-link" href="#bokeh">Bokeh</a></li>
-					<li><a data-toggle="tab" class="nav-link" href="#light">Light</a></li>
-				</ul>
-			</div>
-		</div>
 		<div class="row align-center">
 			<!-- <div class="col-md-4">
 				&nbsp;
@@ -99,7 +88,7 @@ Benchmarking Report
 								<div class="row ">
 									<div class="col-md-4">
 										<div class="card shadow-sm">
-											<img src="{{photo.file.url}}" width="100%" height="50%" alt="">
+											<img src="{{photo.samsung_image.url}}" width="100%" height="50%" alt="">
 
 											<div class="card-body">
 												<p class="card-text">Samsung Mobile</p>
@@ -108,19 +97,19 @@ Benchmarking Report
 									</div>
 									<div class="col-md-4">
 										<div class="card shadow-sm">
-											<img src="{{photo.file.url}}" width="100%" height="50%" alt="">
+											<img src="{{photo.apple_image.url}}" width="100%" height="50%" alt="">
 
 											<div class="card-body">
-												<p class="card-text">Iphone</p>
+												<p class="card-text">{{photo.competator1_name}}</p>
 											</div>
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="card shadow-sm">
-											<img src="{{photo.file.url}}" width="100%" height="50%" alt="">
+											<img src="{{photo.oneplus_image.url}}" width="100%" height="50%" alt="">
 
 											<div class="card-body">
-												<p class="card-text">Realme</p>
+												<p class="card-text">{{photo.competator2_name}}</p>
 											</div>
 										</div>
 									</div>
@@ -132,6 +121,17 @@ Benchmarking Report
 			</div>
 		</div>
 		<br>
+		<div style="text-align: center;margin-bottom: 20px;">
+			<!-- <h6><b>{{photo.email}}</b></h6> -->
+			<div class="d-flex justify-content-center">
+				<ul id="nav-tabs" class="nav nav-pills">
+					<li class="active"><a data-toggle="tab" class="nav-link active"href="#hdr">Hdr</a></li>
+					<li><a data-toggle="tab" class="nav-link" href="#beauty">Beauty</a></li>
+					<li><a data-toggle="tab" class="nav-link" href="#bokeh">Bokeh</a></li>
+					<li><a data-toggle="tab" class="nav-link" href="#light">Light</a></li>
+				</ul>
+			</div>
+		</div>
 		<div class="tab-content">
 			<div id="hdr" class="tab-pane fade in active show">
 				<div>

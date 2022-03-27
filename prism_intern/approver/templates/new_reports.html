@@ -340,6 +340,11 @@ New Reports
 {% block content %}
 <div>
 	<div class="container">
+		{% if exception %}
+		<div class="alert alert-danger">
+			{{exception}}
+		</div>
+		{% endif %}
 		<br>
 		{% if photos %}
 		<div class="accordion" id="accordionExample">
@@ -348,16 +353,16 @@ New Reports
 				<div class="item-header" id="headingOne">
 					<h2 class="mb-0">
 						<button class="btn btn-link" type="button" data-toggle="collapse"
-							data-target="#{{photo.file.url}}" aria-expanded="false">
+							data-target="#{{photo.samsung_image.url}}" aria-expanded="false">
 							<div class="onitemheader">
-								{{ forloop.counter }}. &nbsp;&nbsp; <img src="{{photo.file.url}}" width="10%" height="10%"> &nbsp;&nbsp;
+								{{ forloop.counter }}. &nbsp;&nbsp; <img src="{{photo.samsung_image.url}}" width="10%" height="10%"> &nbsp;&nbsp;
 								{{photo.email}} &nbsp;&nbsp; {{photo.uploaded_date}}
 							</div>
 						<i class="fa fa-angle-down"></i>
 						</button>
 					</h2>
 				</div>
-				<div id="{{photo.file.url}}" class="collapse" aria-labelledby="headingOne"
+				<div id="{{photo.samsung_image.url}}" class="collapse" aria-labelledby="headingOne"
 					data-parent="#accordionExample">
 					<div class="t-p">
 						<form class="box" accept="" method="POST">
@@ -366,23 +371,37 @@ New Reports
 								<div class="col-md-6">
 									<div class="image-block">
 										<div class="img-image">
-											<img src="{{photo.file.url}}" style="width: 350px;height: 350px;" alt="{{photo.email}}">
+											<img src="{{photo.samsung_image.url}}" style="width: 350px;height: 350px;" alt="{{photo.email}}">
 										</div>
 									</div>
 								</div>
 								<div class="col-md-6">									
 									<div class="card bg-light leftcon">
-										{% if photo.is_edited %}
+										<!-- {% if photo.is_edited %}
 										<b style="color: red;text-align: right;margin-right: 25px;margin-top: 5px;">edited</b>
-										{% endif %}
+										{% endif %} -->
 										<div style="padding: 15px;">
 											<b>Benchmarking Device name</b>
 											<p>{{photo.email}}</p>
+
 											<b>Competator Device</b>
-											<p>Realme Oneplus, Iphone</p>
-											<b>Comment</b>
+											<p>{{photo.competator1_name}}, {{photo.competator2_name}}</p>
+											<b>Comment</b><br>
 											<div class="form-group">
-												<textarea class="form-control" name="review" rows="3">{% if photo.edited_comment %}{{photo.edited_comment}}{% endif %}</textarea>
+												<label style="font-weight: bold;">HDR</label>
+												<textarea class="form-control" name="hdr" rows="1">{% if photo.hdr_rev %}{{photo.hdr_rev}}{% endif %}</textarea>
+											</div>
+											<div class="form-group">
+												<label style="font-weight: bold;">Beauty</label>
+												<textarea class="form-control" name="beauty" rows="1">{% if photo.beauty_rev %}{{photo.beauty_rev}}{% endif %}</textarea>
+											</div>
+											<div class="form-group">
+												<label style="font-weight: bold;">Bokeh</label>
+												<textarea class="form-control" name="bokeh" rows="1">{% if photo.bokeh_rev %}{{photo.bokeh_rev}}{% endif %}</textarea>
+											</div>
+											<div class="form-group">
+												<label style="font-weight: bold;">Light</label>
+												<textarea class="form-control" name="light" rows="1">{% if photo.light_rev %}{{photo.light_rev}}{% endif %}</textarea>
 											</div>
 											<b>Aploaded Date</b>
 											<p>{{photo.uploaded_date}} &nbsp; {{photo.uploaded_time}}</p>
@@ -394,7 +413,8 @@ New Reports
 											</div>
 											<br>
 											<div class="leftbtn">
-												<button class="btn sm btn-primary btn-md" type="submit" name="addcomment" value="{{photo.id}}">Submit</button>
+												<button class="btn sm btn-warning btn-md" style="margin-right: 25px;" type="submit" name="save" value="{{photo.id}}">Save</button>
+												<button class="btn sm btn-primary btn-md" type="submit" name="addcomment" value="{{photo.id}}">Approve</button>
 											</div>
 											<br>
 										</div>

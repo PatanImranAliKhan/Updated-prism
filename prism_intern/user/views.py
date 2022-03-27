@@ -8,6 +8,7 @@ from approver.models import Approver
 from datetime import date
 import datetime
 import re
+import random
 from .usersendEmails import usersendemails
 # Create your views here.
 
@@ -25,7 +26,6 @@ def CheckData(request):
         return None
 
 def UserHomePage(request):
-    # sendEmails.sendemails("jvhd", "message", "to")
     return render(request, 'userHome.html')
 
 def UserAboutPage(request):
@@ -101,118 +101,104 @@ def UploadPhoto(request):
         request.POST['uploaded_time']=datetime.datetime.now().time()
         form = PhotoForm(request.POST, request.FILES)
         # print(request.POST['hdr'],request.POST['beauty'],request.POST['bokeh'],request.POST['light'])
-        # print(form.errors.as_data())
-
+        print(form.errors.as_data())
+    
         if form.is_valid():
             form.save()
-            # appr1=Approver.objects.filter(category="hdr",assign="True")
-            # for i in appr1:
-            #     i.assignments_given+=1
-            #     i.save()
-            # appr2=Approver.objects.filter(category="beauty",assign="True")
-            # for i in appr2:
-            #     i.assignments_given+=1
-            #     i.save()
-            # appr3=Approver.objects.filter(category="bokeh",assign="True")
-            # for i in appr3:
-            #     i.assignments_given+=1
-            #     i.save()
-            # appr4=Approver.objects.filter(category="light",assign="True")
-            # for i in appr4:
-            #     i.assignments_given+=1
-            #     i.save()
             form=PhotoForm()
-            return render(request, 'user_upload_report.html', {'form': form, 'photos': photos,'success':"Photo was uploaded successfully"})
+            return redirect('viewuploads')
+            # return render(request, 'user_upload_report.html', {'form': form, 'photos': photos,'success':"Photo was uploaded successfully"})
         else:
             return render(request, 'user_upload_report.html', {'form': form, 'photos': photos,'error':'Error Occured'})
     else:
         form = PhotoForm()
     return render(request, 'user_upload_report.html', {'form': form, 'photos': photos})
 
+def getRandomNumber(count):
+    return int(random.randint(0,count))
+
 def ViewUploadsPage(request):
     try:
         p=Photo.objects.filter(email=request.session['email'])
         photos=[]
-        print(p)
-        for i in p:
+        appr = Approver.objects.all()
+        for k in p:
             data=[]
-            hdr=hdrReview.objects.filter(photo_id=i.id) or []
-            beauty=beautyReview.objects.filter(photo_id=i.id) or []
-            bokeh=bokehReview.objects.filter(photo_id=i.id) or []
-            light=lightReview.objects.filter(photo_id=i.id) or []
-            data.append(i.id)
-            data.append(i.email)
-            data.append(i.uploaded_date)
-            data.append(i.uploaded_time)
-            data.append(i.file)
-            if len(hdr)!=0:
-                data.append(hdr[0].review)
-            elif len(beauty)!=0:
-                data.append(beauty[0].review)
-            elif len(bokeh)!=0:
-                data.append(bokeh[0].review)
-            elif len(light)!=0:
-                data.append(light[0].review)
-            else:
-                data.append(False)
-            print(data)
-            # approver status
-            if len(hdr)!=0:
-                data.append(True)
-            else:
-                data.append(False)
-            if len(beauty)!=0:
-                data.append(True)
-            else:
-                data.append(False)
-            if len(bokeh)!=0:
-                data.append(True)
-            else:
-                data.append(False)
-            if len(light)!=0:
-                data.append(True)
-            else:
-                data.append(False)
+            hdr=hdrReview.objects.filter(photo_id=k.id) or []
+            beauty=beautyReview.objects.filter(photo_id=k.id) or []
+            bokeh=bokehReview.objects.filter(photo_id=k.id) or []
+            light=lightReview.objects.filter(photo_id=k.id) or []
+            print(hdr,beauty,bokeh,light)
+            reviewed_appr = set()
+            reviewed_comments=[]
+            for i in hdr:
+                if i.save_mode==False:
+                    reviewed_appr.add(i.email)
+                    reviewed_comments.append(i.review)
+            for i in beauty:
+                if i.save_mode==False:
+                    reviewed_appr.add(i.email)
+                    reviewed_comments.append(i.review)
+            for i in bokeh:
+                if i.save_mode==False:
+                    reviewed_appr.add(i.email)
+                    reviewed_comments.append(i.review)
+            for i in light:
+                if i.save_mode==False:
+                    reviewed_appr.add(i.email)
+                    reviewed_comments.append(i.review)
 
-            # approver details
-
-            if len(hdr)!=0:
-                data.append(hdr[0].email)
+            print("reviewd app = ",reviewed_appr)
+            l=list(reviewed_appr)
+            count=len(reviewed_appr)
+            approvers_data=[]
+            if count>=4:
+                for j in range(count):
+                    approvers_data.append({
+                        'email':l[j],
+                        'status':True
+                    })
             else:
-                hdr_appr=Approver.objects.filter(category="hdr")
-                data.append(hdr_appr[0].email)
-            if len(beauty)!=0:
-                data.append(beauty[0].email)
+                for j in range(count):
+                    approvers_data.append({
+                        'email':l[j],
+                        'status':True
+                    })
+                for j in appr:
+                    if j.email not in l and count<4:
+                        approvers_data.append({
+                            'email':j.email,
+                            'status':False
+                        })
+                        count+=1
+            print("approvers data = ",approvers_data)
+            random_generated_number = getRandomNumber(len(reviewed_comments))
+            op_comment=""
+            if(len(reviewed_comments)==0):
+                op_comment=""
+            elif random_generated_number>=len(reviewed_comments):
+                op_comment=reviewed_comments[random_generated_number-1]
             else:
-                beauty_appr=Approver.objects.filter(category="beauty")
-                data.append(beauty_appr[0].email)
-            if len(bokeh)!=0:
-                data.append(bokeh[0].email)
-            else:
-                bokeh_appr=Approver.objects.filter(category="bokeh")
-                data.append(bokeh_appr[0].email)
-            if len(light)!=0:
-                data.append(light[0].email)
-            else:
-                light_appr=Approver.objects.filter(category="light")
-                data.append(light_appr[0].email)
-            abc = {
-                "id":data[0],
-                "email":data[1],
-                "uploaded_date":data[2],
-                "uploaded_time":data[3],
-                "file":data[4],
-                "comment":data[5],
-                "hdrstatus":data[6],
-                "beautystatus":data[7],
-                "bokehstatus":data[8],
-                "lightstatus":data[9],
-                "hdr_appr_email":data[10],
-                "beauty_appr_email":data[11],
-                "bokeh_appr_email":data[12],
-                "light_appr_email":data[13]
-            }
-            photos.append(abc)
+                op_comment=reviewed_comments[random_generated_number]
+            photos.append({
+                'id':k.id,
+                'email':k.email,
+                'file': k.samsung_image,
+                'competator1_name':k.competator1_name,
+                'competator2_name':k.competator2_name,
+                'uploaded_date':k.uploaded_date,
+                'uploaded_time':k.uploaded_time,
+                'comment':op_comment,
+                'approver1_status':approvers_data[0]['status'],
+                'approver1_email':approvers_data[0]['email'],
+                'approver2_status':approvers_data[1]['status'],
+                'approver2_email':approvers_data[1]['email'],
+                'approver3_status':approvers_data[2]['status'],
+                'approver3_email':approvers_data[2]['email'],
+                'approver4_status':approvers_data[3]['status'],
+                'approver4_email':approvers_data[3]['email'],
+            })
+            print("photos = ",photos)
     except Exception as e: 
         photos=[]
         print("Exception ",e)
@@ -221,13 +207,13 @@ def ViewUploadsPage(request):
         res=[]
         c=0
         for i in photos:
-            if (re.match(data, str(i['id']), re.IGNORECASE) or re.match(data, i['email'], re.IGNORECASE) or re.match(data, i['hdr_appr_email'], re.IGNORECASE) or re.match(data, i['beauty_appr_email'], re.IGNORECASE) or re.match(data, i['bokeh_appr_email'], re.IGNORECASE) or re.match(data, i['light_appr_email'], re.IGNORECASE)):
+            if (re.match(data, str(i['id']), re.IGNORECASE) or re.match(data, i['email'], re.IGNORECASE) or re.match(data, i['approver1_email'], re.IGNORECASE) or re.match(data, i['approver2_email'], re.IGNORECASE) or re.match(data, i['approver3_email'], re.IGNORECASE) or re.match(data, i['approver4_email'], re.IGNORECASE) or re.match(data, i['file'].url, re.IGNORECASE)):
                 res.append(i)
                 c=c+1
         if c!=0:
             return render(request,'user_view_uploaded_reports.html',{'photos':res})
         return render(request,'user_view_uploaded_reports.html',{'photos':photos,'error': "no results found, so we are displaying all the results"})
-    print("Photos = ",photos)
+    # print("Photos = ",photos)
     return render(request,'user_view_uploaded_reports.html',{'photos':photos})
 
 
@@ -236,7 +222,7 @@ def SharedViewForUserPage(request,email,file):
     id=p.id
     abc= {
         "id":p.id,
-        "file":p.file,
+        "file":p.samsung_image,
         "email":email
     }
     hdr=hdrReview.objects.filter(photo_id=id) or []
@@ -247,16 +233,11 @@ def SharedViewForUserPage(request,email,file):
 
 def ViewReportPage(request,id):
     ph=Photo.objects.get(id=id)
-    abc= {
-        "id":id,
-        "file":ph.file,
-        "email":request.session['email']
-    }
     hdr=hdrReview.objects.filter(photo_id=id) or []
     beauty=beautyReview.objects.filter(photo_id=id) or []
     bokeh=bokehReview.objects.filter(photo_id=id) or []
     light=lightReview.objects.filter(photo_id=id) or []
-    return render(request, 'user_ReportView.html',{'photo':abc,'hdr':hdr,'beauty':beauty,'bokeh':bokeh,'light':light})
+    return render(request, 'user_ReportView.html',{'photo':ph,'hdr':hdr,'beauty':beauty,'bokeh':bokeh,'light':light})
 
 def UpdateProfilePic(request):
     try:
