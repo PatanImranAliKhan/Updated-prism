@@ -136,11 +136,10 @@ Benchmarking Report
 			<div id="hdr" class="tab-pane fade in active show">
 				<div>
 					{% for h in hdr %}
-						<small><b>{{h.email}}</b></small>
-						<!-- <div style="width: 90%;padding: 5px 20px;min-height: 75px;">
-							{{h.review}}
-						</div> -->
-						<textarea class="form-control" disabled rows="2">{{h.review}}</textarea>
+						{% if bo.review|length > 0 %}
+							<small><b>{{h.email}}</b></small>
+							<textarea class="form-control" disabled rows="2">{{h.review}}</textarea>
+						{% endif %}
 					{% empty %}
 					<p>No Hdr reviews till yet</p>
 					{% endfor %}
@@ -149,8 +148,10 @@ Benchmarking Report
 			<div id="beauty" class="tab-pane fade">
 				<div>
 					{% for bea in beauty %}
-						<small><b>{{bea.email}}</b></small>
-						<textarea class="form-control" disabled rows="2">{{bea.review}}</textarea>
+						{% if bea.review|length > 0 %}
+							<small><b>{{bea.email}}</b></small>
+							<textarea class="form-control" disabled rows="2">{{bea.review}}</textarea>
+						{% endif %}
 					{% empty %}
 					<p>No beauty reviews till yet</p>
 					{% endfor %}
@@ -159,8 +160,10 @@ Benchmarking Report
 			<div id="bokeh" class="tab-pane fade">
 				<div>
 					{% for bo in bokeh %}
-						<small><b>{{bo.email}}</b></small>
-						<textarea class="form-control" disabled rows="2">{{bo.review}}</textarea>
+						{% if bo.review|length > 0 %}
+							<small><b>{{bo.email}}</b></small>
+							<textarea class="form-control" disabled rows="2">{{bo.review}}</textarea>
+						{% endif %}
 					{% empty %}
 					<p>No bokeh reviews till yet</p>
 					{% endfor %}
@@ -169,8 +172,10 @@ Benchmarking Report
 			<div id="light" class="tab-pane fade">
 				<div>
 					{% for li in light %}
-						<small><b>{{li.email}}</b></small>
-						<textarea class="form-control" disabled rows="2">{{li.review}}</textarea>
+						{% if li.review|length > 0 %}
+							<small><b>{{li.email}}</b></small>
+							<textarea class="form-control" disabled rows="2">{{li.review}}</textarea>
+						{% endif %}
 					{% empty %}
 					<p>No light reviews till yet</p>
 					{% endfor %}

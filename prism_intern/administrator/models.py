@@ -37,6 +37,13 @@ class lightReview(models.Model):
     save_mode=models.BooleanField(default=False)
     photo_edited=models.BooleanField(default=False)
 
+class Review(models.Model):
+    email=models.CharField(max_length=100)
+    review=models.TextField()
+    photo_id=models.IntegerField()
+    save_mode=models.BooleanField(default=False)
+    photo_edited=models.BooleanField(default=False)
+
 class editReview(models.Model):
     email=models.CharField(max_length=100)
     review=models.TextField()

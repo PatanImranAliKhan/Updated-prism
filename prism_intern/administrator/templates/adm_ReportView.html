@@ -158,11 +158,10 @@ Benchmarking Report
 					<div class="col-md-10 col-sm-12">
 						<div class="viewcomments">
 							{% for h in hdr %}
-								<small><b>{{h.email}}</b></small>
-								<!-- <div style="width: 90%;padding: 5px 20px;min-height: 75px;">
-									{{h.review}}
-								</div> -->
-								<textarea class="form-control" disabled rows="2">{{h.review}}</textarea>
+								{% if h.review|length > 0  %}
+									<small><b>{{h.email}}</b></small>
+									<textarea class="form-control" disabled rows="2">{{h.review}}</textarea>
+								{% endif %}
 							{% empty %}
 							<p>No Hdr reviews till yet</p>
 							{% endfor %}
@@ -179,8 +178,10 @@ Benchmarking Report
 					<div class="col-md-10 col-sm-12">
 						<div class="viewcomments">
 							{% for bea in beauty %}
-								<small><b>{{bea.email}}</b></small>
-								<textarea class="form-control" disabled rows="2">{{bea.review}}</textarea>
+								{% if bea.review|length > 0  %}
+									<small><b>{{bea.email}}</b></small>
+									<textarea class="form-control" disabled rows="2">{{bea.review}}</textarea>
+								{% endif %}
 							{% empty %}
 							<p>No beauty reviews till yet</p>
 							{% endfor %}
@@ -197,8 +198,10 @@ Benchmarking Report
 					<div class="col-md-10 col-sm-12">
 						<div class="viewcomments">
 							{% for bo in bokeh %}
+								{% if bo.review|length > 0 %}
 								<small><b>{{bo.email}}</b></small>
 								<textarea class="form-control" disabled rows="2">{{bo.review}}</textarea>
+								{% endif %}
 							{% empty %}
 							<p>No bokeh reviews till yet</p>
 							{% endfor %}
@@ -215,8 +218,10 @@ Benchmarking Report
 					<div class="col-md-10 col-sm-12">
 						<div class="viewcomments">
 							{% for li in light %}
+								{% if li.review|length > 0 %}
 								<small><b>{{li.email}}</b></small>
 								<textarea class="form-control" disabled rows="2">{{li.review}}</textarea>
+								{% endif %}
 							{% empty %}
 							<p>No light reviews till yet</p>
 							{% endfor %}

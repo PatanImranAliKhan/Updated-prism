@@ -305,12 +305,33 @@ def ApproverDetails(request,email):
     return render(request,'view_approver.html',{'approver':appr,'assignments':assignments})
 
 def ViewReport(request,id):
-    p=Photo.objects.get(id=id)
-    hdr=hdrReview.objects.filter(photo_id=id)
-    beauty=beautyReview.objects.filter(photo_id=id)
-    bokeh=bokehReview.objects.filter(photo_id=id)
-    light=lightReview.objects.filter(photo_id=id)
-    return render(request,'adm_ReportView.html',{'photo':p,'hdr':hdr,'beauty':beauty,'bokeh':bokeh,'light':light})
+    try:
+        p=Photo.objects.get(id=id)
+        hdr=hdrReview.objects.filter(photo_id=id) or []
+        beauty=beautyReview.objects.filter(photo_id=id) or  []
+        bokeh=bokehReview.objects.filter(photo_id=id) or []
+        light=lightReview.objects.filter(photo_id=id) or []
+        hdr_data=[]
+        for i in hdr:
+            if i.save_mode==False:
+                hdr_data.append(i)
+        beauty_data=[]
+        for i in beauty:
+            if i.save_mode==False:
+                beauty_data.append(i)
+        bokeh_data=[]
+        for i in bokeh:
+            if i.save_mode==False:
+                bokeh_data.append(i)
+        light_data=[]
+        for i in light:
+            if i.save_mode==False:
+                light_data.append(i)
+        print(hdr_data,beauty_data,bokeh_data,light_data)
+        return render(request,'adm_ReportView.html',{'photo':p,'hdr':hdr_data,'beauty':beauty_data,'bokeh':bokeh,'light':light})
+    except Exception as e:
+        print("Exception ",e)
+        return render(request,'adm_ReportView.html',{'photo':p,'hdr':[],'beauty':[],'bokeh':[],'light':[]})
 
 def getHDRPhotos(request,hdrobj,id):
     ph=Photo.objects.filter(hdr=hdrobj)

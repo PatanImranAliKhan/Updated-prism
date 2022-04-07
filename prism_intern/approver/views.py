@@ -119,9 +119,10 @@ def NewReports(request):
             except:
                 light=lightReview(email=request.session['email'],review=light_comment,photo_id=id,save_mode=save_mode)
                 light.save()
-        a=Approver.objects.get(email=email)
-        a.assignments_done+=1
-        a.save()
+        if save_mode==False:
+            a=Approver.objects.get(email=email)
+            a.assignments_done+=1
+            a.save()
         return redirect('newreports')
     try:
         ph=Photo.objects.all()
@@ -322,9 +323,30 @@ def ProfilePage(request):
     return render(request, 'appr_profile.html',{'approver':a})
 
 def ViewBenchmarkingReport(request,id):
-    p=Photo.objects.get(id=id)
-    hdr=hdrReview.objects.filter(photo_id=id)
-    beauty=beautyReview.objects.filter(photo_id=id)
-    bokeh=bokehReview.objects.filter(photo_id=id)
-    light=lightReview.objects.filter(photo_id=id)
-    return render(request,'appr_BenchmarkingReport.html',{'photo':p,'hdr':hdr,'beauty':beauty,'bokeh':bokeh,'light':light})
+    try:
+        p=Photo.objects.get(id=id)
+        hdr=hdrReview.objects.filter(photo_id=id) or []
+        beauty=beautyReview.objects.filter(photo_id=id) or  []
+        bokeh=bokehReview.objects.filter(photo_id=id) or []
+        light=lightReview.objects.filter(photo_id=id) or []
+        hdr_data=[]
+        for i in hdr:
+            if i.save_mode==False:
+                hdr_data.append(i)
+        beauty_data=[]
+        for i in beauty:
+            if i.save_mode==False:
+                beauty_data.append(i)
+        bokeh_data=[]
+        for i in bokeh:
+            if i.save_mode==False:
+                bokeh_data.append(i)
+        light_data=[]
+        for i in light:
+            if i.save_mode==False:
+                light_data.append(i)
+        print(hdr_data,beauty_data,bokeh_data,light_data)
+        return render(request,'appr_BenchmarkingReport.html',{'photo':p,'hdr':hdr_data,'beauty':beauty_data,'bokeh':bokeh,'light':light})
+    except Exception as e:
+        print("Exception ",e)
+        return render(request,'appr_BenchmarkingReport.html',{'photo':p,'hdr':[],'beauty':[],'bokeh':[],'light':[]})
